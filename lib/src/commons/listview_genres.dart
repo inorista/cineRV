@@ -30,7 +30,7 @@ class listview_genres extends StatelessWidget {
         return GestureDetector(
           onTap: () async {
             context.read<DetailGenreBloc>()
-              ..add(
+              .add(
                 GetMovieByGenre(
                   genreID: listAllGenres[index].id.toString(),
                 ),

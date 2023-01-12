@@ -9,11 +9,11 @@ part 'upcoming_movie_state.dart';
 
 class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
   UpcomingMovieBloc() : super(UpcomingMovieLoading()) {
-    final _dio = DioClient();
-    final _theMovieDBApi = TheMovieDBApi(_dio);
+    final dio = DioClient();
+    final theMovieDBApi = TheMovieDBApi(dio);
     on<GetUpcomingMovie>((event, emit) async {
       emit(UpcomingMovieLoading());
-      final upcoming_movies = await _theMovieDBApi.getUpcomingMovies();
+      final upcoming_movies = await theMovieDBApi.getUpcomingMovies();
       emit(UpcomingMovieLoaded(upcoming_movies: upcoming_movies));
     });
   }

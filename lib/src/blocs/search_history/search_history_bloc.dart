@@ -23,7 +23,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
       final prefs = await SharedPreferences.getInstance();
       final oldListSearchHistory = prefs.getStringList("searchHistory");
       if (oldListSearchHistory?.indexOf(event.keyword) == -1 && event.keyword != "") {
-        oldListSearchHistory?..add(event.keyword);
+        oldListSearchHistory?.add(event.keyword);
         await prefs.setStringList("searchHistory", oldListSearchHistory!);
 
         final listSearchHistory = prefs.getStringList("searchHistory");

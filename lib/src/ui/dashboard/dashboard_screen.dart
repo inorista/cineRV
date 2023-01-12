@@ -1,7 +1,9 @@
 import 'package:cinerv/src/blocs/bottom_navigator/bottom_navigator_bloc.dart';
+import 'package:cinerv/src/blocs/settings/settings_bloc.dart';
 import 'package:cinerv/src/ui/discover/discover_screen.dart';
 import 'package:cinerv/src/ui/home/home_screen.dart';
 import 'package:cinerv/src/ui/lovelist/lovelist_screen.dart';
+import 'package:cinerv/src/ui/settings/settings_screen.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,47 +29,52 @@ class DashboardScreen extends StatelessWidget {
               HomeScreen(),
               DiscoverScreen(),
               LoveListScreen(),
+              SettingsScreen(),
             ],
           ),
           bottomNavigationBar: SizedBox(
-            height: 55,
-            child: Theme(
-              data: ThemeData(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                  backgroundColor: Color.fromARGB(255, 29, 29, 29),
-                  unselectedItemColor: Color(0xff9f9fa5),
-                  selectedItemColor: Color(0xffff375f),
-                ),
-              ),
-              child: BottomNavigationBar(
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                elevation: 0,
-                type: BottomNavigationBarType.fixed,
-                iconSize: 25,
-                selectedFontSize: 10,
-                unselectedFontSize: 10,
-                onTap: (index) {
-                  context.read<BottomNavigatorBloc>().add(ChangeIndexEvent(index: index));
-                },
-                currentIndex: state.index,
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Iconsax.home5),
-                    label: "",
+            height: 82,
+            child: BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, settingsState) {
+                return Theme(
+                  data: ThemeData(
+                    bottomNavigationBarTheme: settingsState.themes.bottomNavigationBarTheme,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(EvaIcons.grid),
-                    label: "",
+                  child: BottomNavigationBar(
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    elevation: 0,
+                    type: BottomNavigationBarType.fixed,
+                    iconSize: 25,
+                    selectedFontSize: 10,
+                    unselectedFontSize: 10,
+                    onTap: (index) {
+                      context.read<BottomNavigatorBloc>().add(ChangeIndexEvent(index: index));
+                    },
+                    currentIndex: state.index,
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Iconsax.home5),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(EvaIcons.grid),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Iconsax.heart5),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(EvaIcons.settings2),
+                        label: "",
+                      ),
+                    ],
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Iconsax.heart5),
-                    label: "",
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         );

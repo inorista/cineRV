@@ -13,7 +13,7 @@ class Review {
 
   Review.fromJson(Map<String, dynamic> json) {
     author = json['author'];
-    authorDetails = json['author_details'] != null ? new AuthorDetails.fromJson(json['author_details']) : null;
+    authorDetails = json['author_details'] != null ? AuthorDetails.fromJson(json['author_details']) : null;
     content = json['content'];
     createdAt = json['created_at'];
     id = json['id'];
@@ -22,7 +22,7 @@ class Review {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['author'] = author;
     if (authorDetails != null) {
       data['author_details'] = authorDetails!.toJson();

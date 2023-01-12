@@ -17,7 +17,6 @@ class gridview_movie extends StatelessWidget {
     return BlocBuilder<AllLovedMoviesBloc, AllLovedMoviesState>(
       builder: (context, state) {
         if (state is AllLovedMoviesLoaded) {
-          final lovedMovies = state.listAllLovedMovies;
           return GridView.builder(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

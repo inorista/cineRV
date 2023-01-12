@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:cinerv/src/models/credit.dart';
 import 'package:cinerv/src/network/dio_client.dart';
@@ -9,11 +10,11 @@ part 'cast_movie_state.dart';
 
 class CastMovieBloc extends Bloc<CastMovieEvent, CastMovieState> {
   CastMovieBloc() : super(CastMovieLoading()) {
-    final _dio = DioClient();
-    final _theMovieDBApi = TheMovieDBApi(_dio);
+    final dio = DioClient();
+    final theMovieDBApi = TheMovieDBApi(dio);
     on<GetCastEvent>((event, emit) async {
       emit(CastMovieLoading());
-      final creditMovie = await _theMovieDBApi.getCreditMovieByID(event.movieID);
+      final creditMovie = await theMovieDBApi.getCreditMovieByID(event.movieID);
       emit(CastMovieLoaded(castLoaded: creditMovie));
     });
   }

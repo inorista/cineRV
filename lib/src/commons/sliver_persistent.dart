@@ -16,10 +16,13 @@ class HeaderPersistent extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     final percent = (shrinkOffset / maximumExtent).clamp(0.1, 1);
 
-    var opacity = ((minimumExtent / shrinkOffset / 2)) < 0.135 ? 0 : ((minimumExtent / shrinkOffset / 2)).clamp(0, 1);
+    var opacity = ((minimumExtent / shrinkOffset / 2)) < 0.135
+        ? 0
+        : ((minimumExtent / shrinkOffset / 2)).clamp(0, 1);
 
     var opacityColor = (shrinkOffset / maximumExtent).toDouble() < 0.8
         ? 0
@@ -27,8 +30,9 @@ class HeaderPersistent extends SliverPersistentHeaderDelegate {
             ? 1
             : (shrinkOffset / maximumExtent).clamp(0.7, 1);
 
-    var opacityTitle =
-        (shrinkOffset / maximumExtent).toDouble() < 0.75 ? 0 : (shrinkOffset / maximumExtent).clamp(0.75, 1);
+    var opacityTitle = (shrinkOffset / maximumExtent).toDouble() < 0.75
+        ? 0
+        : (shrinkOffset / maximumExtent).clamp(0.75, 1);
 
     return SafeArea(
       child: Container(
@@ -74,7 +78,8 @@ class HeaderPersistent extends SliverPersistentHeaderDelegate {
                           color: Colors.black.withOpacity(0.5),
                           spreadRadius: 7,
                           blurRadius: 10,
-                          offset: const Offset(4, 3), // changes position of shadow
+                          offset:
+                              const Offset(4, 3), // changes position of shadow
                         ),
                       ],
                     ),

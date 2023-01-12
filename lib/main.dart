@@ -9,11 +9,11 @@ import 'package:cinerv/src/blocs/review_movie/review_movie_bloc.dart';
 import 'package:cinerv/src/blocs/search_field/search_field_bloc.dart';
 import 'package:cinerv/src/blocs/search_history/search_history_bloc.dart';
 import 'package:cinerv/src/blocs/search_result/search_result_bloc.dart';
+import 'package:cinerv/src/blocs/settings/settings_bloc.dart';
 import 'package:cinerv/src/blocs/top_rated_movie/top_rated_movie_bloc.dart';
 import 'package:cinerv/src/blocs/trending_movie/trending_movie_bloc.dart';
 import 'package:cinerv/src/blocs/upcoming_movie/upcoming_movie_bloc.dart';
-import 'package:cinerv/src/constants/style_constants.dart';
-import 'package:cinerv/src/ui/dashboard/dashboard_screen.dart';
+import 'package:cinerv/src/ui/login/login_screen_1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -58,40 +58,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchResultBloc()),
         BlocProvider(create: (context) => SearchFieldBloc()),
         BlocProvider(create: (context) => DetailGenreBloc()),
+        BlocProvider(create: (context) => SettingsBloc())
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'CineRV',
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color.fromARGB(255, 31, 31, 31),
-            titleTextStyle: kStyleAppBarTitle,
-          ),
-          backgroundColor: Colors.white,
-          tabBarTheme: const TabBarTheme(
-            labelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.label,
-          ),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: const Color(0xff121212).withOpacity(0.85),
-            unselectedItemColor: const Color(0xff5c5c5c),
-            selectedItemColor: Colors.white,
-          ),
-          fontFamily: "Open Sans",
-          textTheme: const TextTheme(
-            bodyText1: TextStyle(
-              color: Color(0xffffffff),
-            ),
-          ),
-          iconTheme: const IconThemeData(
-            size: 25,
-            color: Color(0xffffffff),
-          ),
-          brightness: Brightness.dark,
-          scaffoldBackgroundColor: const Color(0xff181818),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: const DashboardScreen(),
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, state) {
+          return MaterialApp(
+            home: const LoginScreen1(),
+            debugShowCheckedModeBanner: false,
+            title: 'CineRV',
+            theme: state.themes,
+          );
+        },
       ),
     );
   }

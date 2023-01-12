@@ -10,27 +10,27 @@ part 'search_result_state.dart';
 
 class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
   SearchResultBloc() : super(SearchResultInitial()) {
-    final _dio = DioClient();
-    final _theMovieDBApi = TheMovieDBApi(_dio);
-    int _currentPage = 1;
-    String _query = "";
+    final dio = DioClient();
+    final theMovieDBApi = TheMovieDBApi(dio);
+    int currentPage = 1;
+    String query = "";
     on<SearchMovieByKeyWord>((event, emit) async {
       emit(SearchLoading());
-      final listSearchedMovies = await compute(_theMovieDBApi.searchMoviesByKeyword, event.keyword);
+      final listSearchedMovies = await compute(theMovieDBApi.searchMoviesByKeyword, event.keyword);
       emit(SearchMoviesLoaded(listMoviesLoaded: listSearchedMovies));
-      _query = event.keyword;
+      query = event.keyword;
     });
 
     on<GetMoreMovieByKeyword>((event, emit) async {
       final state = this.state;
       if (state is SearchMoviesLoaded) {
-        _currentPage += 1;
+        currentPage += 1;
 
         final Map<String, String> mapQuery = {
-          "query": _query,
-          "page": _currentPage.toString(),
+          "query": query,
+          "page": currentPage.toString(),
         };
-        final moreMovieLoaded = await compute(_theMovieDBApi.getMoreMoviesByKeyword, mapQuery);
+        final moreMovieLoaded = await compute(theMovieDBApi.getMoreMoviesByKeyword, mapQuery);
         emit(SearchMoviesLoaded(listMoviesLoaded: List.from(state.listMoviesLoaded)..addAll(moreMovieLoaded)));
       }
     });

@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:cinerv/src/models/movie.dart';
 import 'package:cinerv/src/network/dio_client.dart';
@@ -10,16 +11,16 @@ part 'all_loved_movies_state.dart';
 
 class AllLovedMoviesBloc extends Bloc<AllLovedMoviesEvent, AllLovedMoviesState> {
   AllLovedMoviesBloc() : super(AllLovedMoviesLoading()) {
-    final _dio = DioClient();
-    final _theMovieDBApi = TheMovieDBApi(_dio);
+    final dio = DioClient();
+    final theMovieDBApi = TheMovieDBApi(dio);
 
     on<GetAllLovedMovies>((event, emit) async {
       emit(AllLovedMoviesLoading());
       final prefs = await SharedPreferences.getInstance();
-      final listAllLovedFromLocal = await prefs.getStringList("lovelist");
+      final listAllLovedFromLocal = prefs.getStringList("lovelist");
 
       if (listAllLovedFromLocal!.isNotEmpty) {
-        final movie = await _theMovieDBApi.getAllLovedMovieByID(listAllLovedFromLocal);
+        final movie = await theMovieDBApi.getAllLovedMovieByID(listAllLovedFromLocal);
         emit(AllLovedMoviesLoaded(listAllLovedMovies: movie));
       } else {
         emit(const AllLovedMoviesLoaded(listAllLovedMovies: []));
@@ -49,8 +50,8 @@ class AllLovedMoviesBloc extends Bloc<AllLovedMoviesEvent, AllLovedMoviesState> 
       final movieID = event.movieID;
       final state = this.state;
       if (state is AllLovedMoviesLoaded) {
-        final getMovie = await _theMovieDBApi.getDetailMovieByID(int.parse(movieID));
-        final oldListLovedMovie = await prefs.getStringList("lovelist");
+        final getMovie = await theMovieDBApi.getDetailMovieByID(int.parse(movieID));
+        final oldListLovedMovie = prefs.getStringList("lovelist");
         final newListLovedMovie = oldListLovedMovie!..add(getMovie.id.toString());
         prefs.setStringList("lovelist", newListLovedMovie);
         emit(

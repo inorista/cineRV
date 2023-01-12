@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:cinerv/src/blocs/detail_genre/detail_genre_bloc.dart';
-import 'package:cinerv/src/commons/grid_poster.dart';
 import 'package:cinerv/src/commons/gridview_movie.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/genre.dart';
@@ -31,7 +30,7 @@ class DetailGenresScreen extends StatelessWidget {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             EvaIcons.arrowBack,
             size: 25,
           ),
@@ -77,7 +76,7 @@ class DetailGenresScreen extends StatelessWidget {
 
                   if (!isBottom) {
                     context.read<DetailGenreBloc>()
-                      ..add(
+                      .add(
                         GetMoreMovieByGenre(
                           genreID: genre.id.toString(),
                         ),
@@ -114,7 +113,7 @@ class DetailGenresScreen extends StatelessWidget {
                           final listDetailGenreMovie = state.moviesGenre;
                           return gridview_movie(listAllMovies: listDetailGenreMovie);
                         }
-                        return SizedBox();
+                        return const SizedBox();
                       },
                     ),
                   ),

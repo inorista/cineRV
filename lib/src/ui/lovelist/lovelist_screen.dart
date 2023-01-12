@@ -12,9 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 extension ColorExtension on String {
   toColor(String opacity) {
-    var hexColor = this.replaceAll("#", "");
+    var hexColor = replaceAll("#", "");
     if (hexColor.length == 6) {
-      hexColor = "${opacity}" + hexColor;
+      hexColor = "$opacity$hexColor";
     }
     if (hexColor.length == 8) {
       return Color(int.parse("0x$hexColor"));

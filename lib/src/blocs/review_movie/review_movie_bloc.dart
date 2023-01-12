@@ -9,12 +9,11 @@ part 'review_movie_state.dart';
 
 class ReviewMovieBloc extends Bloc<ReviewMovieEvent, ReviewMovieState> {
   ReviewMovieBloc() : super(ReviewMovieLoading()) {
-    final _dio = DioClient();
-    final _theMovieDBApi = TheMovieDBApi(_dio);
-    var _currentReviewsPage = 1;
+    final dio = DioClient();
+    final theMovieDBApi = TheMovieDBApi(dio);
     on<GetReviewMovie>((event, emit) async {
       emit(ReviewMovieLoading());
-      final listReviews = await _theMovieDBApi.getReviewsMovieByID(event.movieID);
+      final listReviews = await theMovieDBApi.getReviewsMovieByID(event.movieID);
       emit(ReviewMovieLoaded(listReviews: listReviews));
     });
   }

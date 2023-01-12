@@ -5,16 +5,16 @@ import 'package:cinerv/src/models/genre.dart';
 import 'package:cinerv/src/models/movie.dart';
 import 'package:cinerv/src/models/review.dart';
 import 'package:cinerv/src/network/dio_client.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
-final formatter = new DateFormat('yyyy-MM-dd');
+final formatter = DateFormat('yyyy-MM-dd');
 final currentDate = formatter.format(DateTime.now());
 
 class TheMovieDBApi {
   TheMovieDBApi(this._DioClient);
   final DioClient _DioClient;
   static const API_KEY = "32608dccf06315f600b0393593f754aa";
-  @override
   Future<List<Movie>> getTrendingMovies({
     int page = 1,
   }) async {
@@ -131,9 +131,9 @@ class TheMovieDBApi {
 
       final tempMovie = Movie.fromJson(movie);
 
-      listMovies..add(tempMovie);
+      listMovies.add(tempMovie);
     }
-    ;
+    
     return listMovies;
   }
 

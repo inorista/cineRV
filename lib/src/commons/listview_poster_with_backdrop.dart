@@ -95,7 +95,7 @@ class listview_poster_with_backdrop extends StatelessWidget {
                             width: deviceWidth / 2.5,
                             height: deviceHeight / 3.5,
                             child: formedCachedImage(
-                              imageUrl: "${IMAGE_PATH_POSTER}${listMovieData[index].posterPath}",
+                              imageUrl: "$IMAGE_PATH_POSTER${listMovieData[index].posterPath}",
                               errorWidget: Container(
                                 color: Colors.white,
                                 child: const Center(
@@ -122,7 +122,7 @@ class listview_poster_with_backdrop extends StatelessWidget {
                               listMovieData[index].status == null
                                   ? Text("Tổng lượt vote: ${listMovieData[index].voteCount}")
                                   : Text(
-                                      "${listMovieData[index].status == "Released" ? "Đã hoàn thành" : "Chưa ra mắt"}"),
+                                      listMovieData[index].status == "Released" ? "Đã hoàn thành" : "Chưa ra mắt"),
                               const SizedBox(height: 10),
                               listMovieData[index].runtime == null
                                   ? Text("${listMovieData[index].releaseDate}")

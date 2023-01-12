@@ -9,11 +9,11 @@ part 'top_rated_movie_state.dart';
 
 class TopRatedMovieBloc extends Bloc<TopRatedMovieEvent, TopRatedMovieState> {
   TopRatedMovieBloc() : super(TopRatedMovieLoading()) {
-    final _dio = DioClient();
-    final _theMovieDBApi = TheMovieDBApi(_dio);
+    final dio = DioClient();
+    final theMovieDBApi = TheMovieDBApi(dio);
     on<GetTopRatedMovies>((event, emit) async {
       emit(TopRatedMovieLoading());
-      final topRated_movies = await _theMovieDBApi.getTopRatedMovies();
+      final topRated_movies = await theMovieDBApi.getTopRatedMovies();
       emit(TopRatedMovieLoaded(topRated_movies: topRated_movies));
     });
   }

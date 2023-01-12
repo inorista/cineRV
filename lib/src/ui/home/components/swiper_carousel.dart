@@ -2,7 +2,6 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:cinerv/src/blocs/popular_movie/popular_movie_bloc.dart';
 import 'package:cinerv/src/ui/home/components/swiper_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class swiper_carousel extends StatelessWidget {
@@ -22,15 +21,14 @@ class swiper_carousel extends StatelessWidget {
               width: double.infinity,
               height: deviceHeight / 2.5,
               child: Swiper(
-                onIndexChanged: (value) {
-                  HapticFeedback.vibrate();
-                },
+                onIndexChanged: (value) {},
                 index: 0,
                 loop: false,
                 scale: 0.95,
                 viewportFraction: 0.9,
                 layout: SwiperLayout.DEFAULT,
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 duration: 200,
                 itemBuilder: (BuildContext context, int index) {
                   return swiper_item(moviePopular: listPopular[index]);
