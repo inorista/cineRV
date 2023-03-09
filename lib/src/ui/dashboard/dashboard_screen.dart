@@ -30,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
             ],
           ),
           bottomNavigationBar: SizedBox(
-            height: 55,
+            height: 82,
             child: Theme(
               data: ThemeData(
                 splashColor: Colors.transparent,

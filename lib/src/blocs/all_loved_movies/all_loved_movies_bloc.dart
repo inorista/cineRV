@@ -16,7 +16,7 @@ class AllLovedMoviesBloc extends Bloc<AllLovedMoviesEvent, AllLovedMoviesState> 
     on<GetAllLovedMovies>((event, emit) async {
       emit(AllLovedMoviesLoading());
       final prefs = await SharedPreferences.getInstance();
-      final listAllLovedFromLocal = await prefs.getStringList("lovelist");
+      final listAllLovedFromLocal = prefs.getStringList("lovelist");
 
       if (listAllLovedFromLocal!.isNotEmpty) {
         final movie = await _theMovieDBApi.getAllLovedMovieByID(listAllLovedFromLocal);
@@ -50,7 +50,7 @@ class AllLovedMoviesBloc extends Bloc<AllLovedMoviesEvent, AllLovedMoviesState> 
       final state = this.state;
       if (state is AllLovedMoviesLoaded) {
         final getMovie = await _theMovieDBApi.getDetailMovieByID(int.parse(movieID));
-        final oldListLovedMovie = await prefs.getStringList("lovelist");
+        final oldListLovedMovie = prefs.getStringList("lovelist");
         final newListLovedMovie = oldListLovedMovie!..add(getMovie.id.toString());
         prefs.setStringList("lovelist", newListLovedMovie);
         emit(

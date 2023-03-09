@@ -69,7 +69,7 @@ class SearchScreen extends StatelessWidget {
                   bool isBottom = metrics.pixels == 0;
 
                   if (!isBottom) {
-                    context.read<SearchResultBloc>()..add(GetMoreMovieByKeyword());
+                    context.read<SearchResultBloc>()..add(const GetMoreMovieByKeyword());
                   }
                 }
                 return true;
