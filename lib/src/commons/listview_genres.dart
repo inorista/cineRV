@@ -1,10 +1,10 @@
 import 'package:cinerv/src/blocs/detail_genre/detail_genre_bloc.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
 import 'package:cinerv/src/constants/genre_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/genre.dart';
 import 'package:cinerv/src/ui/genres/detail_genres_screen.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,10 +37,9 @@ class listview_genres extends StatelessWidget {
               );
             Navigator.push(
               context,
-              SlideRoute(
-                page: DetailGenresScreen(genre: listAllGenres[index], backdrop_image: image_path_genre.toString()),
-                x: 1,
-                y: 0,
+              CupertinoPageRoute(
+                builder: (context) =>
+                    DetailGenresScreen(genre: listAllGenres[index], backdrop_image: image_path_genre.toString()),
               ),
             );
           },

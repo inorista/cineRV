@@ -48,7 +48,7 @@ class discover_view extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            Navigator.push(context, SlideRoute(page: const SearchScreen(), x: 1, y: 0));
+                            Navigator.push(context, CupertinoPageRoute(builder: (context) => const SearchScreen()));
                           },
                           child: Container(
                             height: 35,

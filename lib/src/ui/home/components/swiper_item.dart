@@ -2,13 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinerv/src/blocs/cast_movie/cast_movie_bloc.dart';
 import 'package:cinerv/src/blocs/detail_movie/detail_movie_bloc.dart';
 import 'package:cinerv/src/blocs/review_movie/review_movie_bloc.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
 import 'package:cinerv/src/constants/path_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/movie.dart';
 import 'package:cinerv/src/ui/detail_movie/detail_movie_screen.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class swiper_item extends StatelessWidget {
@@ -28,10 +27,8 @@ class swiper_item extends StatelessWidget {
         context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: moviePopular.id!));
         Navigator.push(
           context,
-          SlideRoute(
-            page: const DetailMovieScreen(),
-            x: 1,
-            y: 0,
+          CupertinoPageRoute(
+            builder: (context) => const DetailMovieScreen(),
           ),
         );
       },

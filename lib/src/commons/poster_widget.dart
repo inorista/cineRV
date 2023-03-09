@@ -9,6 +9,7 @@ import 'package:cinerv/src/models/movie.dart';
 import 'package:cinerv/src/ui/detail_movie/detail_movie_screen.dart';
 import 'package:cinerv/src/commons/page_transition.dart';
 import 'package:cinerv/src/ui/lovelist/components/alert_dialog_confirm.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,10 +34,8 @@ class poster_widget extends StatelessWidget {
         context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: movie.id!));
         Navigator.push(
           context,
-          SlideRoute(
-            page: const DetailMovieScreen(),
-            x: 1,
-            y: 0,
+          CupertinoPageRoute(builder: (context) =>  const DetailMovieScreen(),
+            
           ),
         );
       },

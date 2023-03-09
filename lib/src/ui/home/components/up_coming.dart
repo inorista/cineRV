@@ -40,13 +40,11 @@ class up_coming extends StatelessWidget {
                           onTap: () async {
                             Navigator.push(
                               context,
-                              SlideRoute(
-                                page: DetailCategoryScreen(
+                              CupertinoPageRoute(
+                                builder: (context) => DetailCategoryScreen(
                                   movieFromCategory: lisUpcomingMovie,
                                   title: "Ra Mắt Trong Thời Gian Tới",
                                 ),
-                                x: 0,
-                                y: 1,
                               ),
                             );
                           },

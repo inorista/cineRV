@@ -63,6 +63,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'CineRV',
         theme: ThemeData(
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            },
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color.fromARGB(255, 31, 31, 31),
             titleTextStyle: kStyleAppBarTitle,

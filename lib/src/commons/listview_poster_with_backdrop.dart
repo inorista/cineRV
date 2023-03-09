@@ -11,6 +11,7 @@ import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/movie.dart';
 import 'package:cinerv/src/ui/detail_movie/detail_movie_screen.dart';
 import 'package:cinerv/src/ui/lovelist/components/alert_dialog_confirm.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,10 +45,8 @@ class listview_poster_with_backdrop extends StatelessWidget {
             context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: listMovieData[index].id!));
             Navigator.push(
               context,
-              SlideRoute(
-                page: const DetailMovieScreen(),
-                x: 1,
-                y: 0,
+              CupertinoPageRoute(
+                builder: (context) => const DetailMovieScreen(),
               ),
             );
           },
@@ -65,8 +64,7 @@ class listview_poster_with_backdrop extends StatelessWidget {
                       height: deviceHeight / 3.5,
                       width: deviceWidth,
                       child: formedCachedImage(
-                        imageUrl:
-                            "$IMAGE_PATH_BACKDROP${listMovieData[index].backdropPath ?? listMovieData[index].posterPath}",
+                        imageUrl: "$IMAGE_PATH_BACKDROP${listMovieData[index].backdropPath ?? listMovieData[index].posterPath}",
                         errorWidget: Container(),
                       ),
                     ),
@@ -121,8 +119,7 @@ class listview_poster_with_backdrop extends StatelessWidget {
                               const SizedBox(height: 20),
                               listMovieData[index].status == null
                                   ? Text("Tổng lượt vote: ${listMovieData[index].voteCount}")
-                                  : Text(
-                                      "${listMovieData[index].status == "Released" ? "Đã hoàn thành" : "Chưa ra mắt"}"),
+                                  : Text("${listMovieData[index].status == "Released" ? "Đã hoàn thành" : "Chưa ra mắt"}"),
                               const SizedBox(height: 10),
                               listMovieData[index].runtime == null
                                   ? Text("${listMovieData[index].releaseDate}")
@@ -153,8 +150,7 @@ class listview_poster_with_backdrop extends StatelessWidget {
                       builder: (context, state) {
                         if (state is AllLovedMoviesLoaded) {
                           final isLoved =
-                              state.listAllLovedMovies.indexWhere((element) => element.id == listMovieData[index].id) !=
-                                      -1
+                              state.listAllLovedMovies.indexWhere((element) => element.id == listMovieData[index].id) != -1
                                   ? true
                                   : false;
                           if (isLoved) {
@@ -167,8 +163,7 @@ class listview_poster_with_backdrop extends StatelessWidget {
                                   showDialog(
                                     context: context,
                                     builder: (context) => confirm_box(
-                                      content:
-                                          """Bạn muốn gỡ bộ phim "${listMovieData[index].title}" khỏi danh sách ưu thích?""",
+                                      content: """Bạn muốn gỡ bộ phim "${listMovieData[index].title}" khỏi danh sách ưu thích?""",
                                       movieID: listMovieData[index].id!,
                                     ),
                                   );

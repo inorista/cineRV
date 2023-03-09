@@ -40,13 +40,11 @@ class most_view extends StatelessWidget {
                           onTap: () async {
                             Navigator.push(
                               context,
-                              SlideRoute(
-                                page: DetailCategoryScreen(
+                              CupertinoPageRoute(
+                                builder: (context) => DetailCategoryScreen(
                                   movieFromCategory: listTrendingMovie,
                                   title: "Top 20 Lượt Xem Khủng Nhât",
                                 ),
-                                x: 0,
-                                y: 1,
                               ),
                             );
                           },

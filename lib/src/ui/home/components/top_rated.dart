@@ -40,13 +40,11 @@ class top_rated extends StatelessWidget {
                           onTap: () async {
                             Navigator.push(
                               context,
-                              SlideRoute(
-                                page: DetailCategoryScreen(
+                              CupertinoPageRoute(
+                                builder: (context) => DetailCategoryScreen(
                                   movieFromCategory: listTopRatedMovie,
                                   title: "Phim Có Đánh Giá Cao Nhất",
                                 ),
-                                x: 0,
-                                y: 1,
                               ),
                             );
                           },
