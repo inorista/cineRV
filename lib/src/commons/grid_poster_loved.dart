@@ -5,8 +5,7 @@ import 'package:cinerv/src/constants/path_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/movie.dart';
 import 'package:cinerv/src/ui/detail_movie/detail_movie_screen.dart';
-import 'package:cinerv/src/commons/formedCachedNetwork.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
+import 'package:cinerv/src/commons/formed_cached_network.dart';
 import 'package:cinerv/src/ui/lovelist/components/alert_dialog_confirm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:iconsax/iconsax.dart';
 
-class grid_poster_loved extends StatelessWidget {
-  const grid_poster_loved({
+class GridPosterLoved extends StatelessWidget {
+  const GridPosterLoved({
     Key? key,
     required this.movie,
   }) : super(key: key);
@@ -29,9 +28,13 @@ class grid_poster_loved extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GestureDetector(
         onTap: () async {
-          context.read<DetailMovieBloc>().add(GetDetailMovie(movieID: movie.id!));
+          context
+              .read<DetailMovieBloc>()
+              .add(GetDetailMovie(movieID: movie.id!));
           context.read<CastMovieBloc>().add(GetCastEvent(movieID: movie.id!));
-          context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: movie.id!));
+          context
+              .read<ReviewMovieBloc>()
+              .add(GetReviewMovie(movieID: movie.id!));
           Navigator.push(
             context,
             CupertinoPageRoute(
@@ -42,7 +45,7 @@ class grid_poster_loved extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: formedCachedImage(
+              child: FormedCachedImage(
                 imageUrl: "$IMAGE_PATH_BACKDROP${movie.posterPath}",
                 errorWidget: Container(
                   color: Colors.white,
@@ -63,8 +66,9 @@ class grid_poster_loved extends StatelessWidget {
                   HapticFeedback.vibrate();
                   showDialog(
                     context: context,
-                    builder: (context) => confirm_box(
-                      content: """Bạn muốn gỡ bộ phim "${movie.title}" khỏi danh sách ưu thích?""",
+                    builder: (context) => ConfirmBox(
+                      content:
+                          """Bạn muốn gỡ bộ phim "${movie.title}" khỏi danh sách ưu thích?""",
                       movieID: movie.id!,
                     ),
                   );

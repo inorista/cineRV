@@ -30,11 +30,12 @@ class DetailCategoryScreen extends StatelessWidget {
         ),
       ),
       body: CustomScrollView(
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           const SliverToBoxAdapter(child: SizedBox(height: 20)),
           SliverToBoxAdapter(
-            child: listview_poster_with_backdrop(listMovieData: movieFromCategory),
+            child: ListViewPosterWithBackdrop(listMovieData: movieFromCategory),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 20)),
         ],

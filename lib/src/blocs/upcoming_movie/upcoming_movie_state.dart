@@ -10,9 +10,9 @@ abstract class UpcomingMovieState extends Equatable {
 class UpcomingMovieLoading extends UpcomingMovieState {}
 
 class UpcomingMovieLoaded extends UpcomingMovieState {
-  final List<Movie> upcoming_movies;
-  const UpcomingMovieLoaded({required this.upcoming_movies});
+  final List<Movie> upComingMovies;
+  const UpcomingMovieLoaded({required this.upComingMovies});
 
   @override
-  List<Object> get props => [upcoming_movies];
+  List<Object> get props => [upComingMovies];
 }

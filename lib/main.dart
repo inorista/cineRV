@@ -44,13 +44,23 @@ class MyApp extends StatelessWidget {
     ]);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => PopularMovieBloc()..add(GetPopularMovie())),
-        BlocProvider(create: (context) => SearchHistoryBloc()..add(GetAllSearchHistory())),
+        BlocProvider(
+            create: (context) => PopularMovieBloc()..add(GetPopularMovie())),
+        BlocProvider(
+            create: (context) =>
+                SearchHistoryBloc()..add(GetAllSearchHistory())),
         BlocProvider(create: (context) => BottomNavigatorBloc()),
-        BlocProvider(create: (context) => GenresDiscoverBloc()..add(GetAllGenres())),
-        BlocProvider(create: (context) => TrendingMovieBloc()..add(const GetTrendingMovies())),
-        BlocProvider(create: (context) => TopRatedMovieBloc()..add(const GetTopRatedMovies())),
-        BlocProvider(create: (context) => UpcomingMovieBloc()..add(const GetUpcomingMovie())),
+        BlocProvider(
+            create: (context) => GenresDiscoverBloc()..add(GetAllGenres())),
+        BlocProvider(
+            create: (context) =>
+                TrendingMovieBloc()..add(const GetTrendingMovies())),
+        BlocProvider(
+            create: (context) =>
+                TopRatedMovieBloc()..add(const GetTopRatedMovies())),
+        BlocProvider(
+            create: (context) =>
+                UpcomingMovieBloc()..add(const GetUpcomingMovie())),
         BlocProvider(create: (context) => ReviewMovieBloc()),
         BlocProvider(create: (context) => DetailMovieBloc()),
         BlocProvider(create: (context) => CastMovieBloc()),

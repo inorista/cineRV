@@ -18,7 +18,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     on<GetTrendingMovies>((event, emit) async {
       emit(TrendingMovieLoading());
       final movies = await _theMovieDBApi.getTrendingMovies();
-      emit(TrendingMovieLoaded(movies_loaded: movies));
+      emit(TrendingMovieLoaded(moviesLoaded: movies));
     });
   }
 }

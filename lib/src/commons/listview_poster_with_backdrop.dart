@@ -4,8 +4,7 @@ import 'package:cinerv/src/blocs/all_loved_movies/all_loved_movies_bloc.dart';
 import 'package:cinerv/src/blocs/cast_movie/cast_movie_bloc.dart';
 import 'package:cinerv/src/blocs/detail_movie/detail_movie_bloc.dart';
 import 'package:cinerv/src/blocs/review_movie/review_movie_bloc.dart';
-import 'package:cinerv/src/commons/formedCachedNetwork.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
+import 'package:cinerv/src/commons/formed_cached_network.dart';
 import 'package:cinerv/src/constants/path_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/movie.dart';
@@ -18,8 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:iconsax/iconsax.dart';
 
-class listview_poster_with_backdrop extends StatelessWidget {
-  const listview_poster_with_backdrop({
+class ListViewPosterWithBackdrop extends StatelessWidget {
+  const ListViewPosterWithBackdrop({
     Key? key,
     required this.listMovieData,
   }) : super(key: key);
@@ -40,9 +39,15 @@ class listview_poster_with_backdrop extends StatelessWidget {
         return GestureDetector(
           onTap: () async {
             HapticFeedback.heavyImpact();
-            context.read<DetailMovieBloc>().add(GetDetailMovie(movieID: listMovieData[index].id!));
-            context.read<CastMovieBloc>().add(GetCastEvent(movieID: listMovieData[index].id!));
-            context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: listMovieData[index].id!));
+            context
+                .read<DetailMovieBloc>()
+                .add(GetDetailMovie(movieID: listMovieData[index].id!));
+            context
+                .read<CastMovieBloc>()
+                .add(GetCastEvent(movieID: listMovieData[index].id!));
+            context
+                .read<ReviewMovieBloc>()
+                .add(GetReviewMovie(movieID: listMovieData[index].id!));
             Navigator.push(
               context,
               CupertinoPageRoute(
@@ -63,8 +68,9 @@ class listview_poster_with_backdrop extends StatelessWidget {
                     SizedBox(
                       height: deviceHeight / 3.5,
                       width: deviceWidth,
-                      child: formedCachedImage(
-                        imageUrl: "$IMAGE_PATH_BACKDROP${listMovieData[index].backdropPath ?? listMovieData[index].posterPath}",
+                      child: FormedCachedImage(
+                        imageUrl:
+                            "$IMAGE_PATH_BACKDROP${listMovieData[index].backdropPath ?? listMovieData[index].posterPath}",
                         errorWidget: Container(),
                       ),
                     ),
@@ -92,8 +98,9 @@ class listview_poster_with_backdrop extends StatelessWidget {
                           child: SizedBox(
                             width: deviceWidth / 2.5,
                             height: deviceHeight / 3.5,
-                            child: formedCachedImage(
-                              imageUrl: "${IMAGE_PATH_POSTER}${listMovieData[index].posterPath}",
+                            child: FormedCachedImage(
+                              imageUrl:
+                                  "$IMAGE_PATH_POSTER${listMovieData[index].posterPath}",
                               errorWidget: Container(
                                 color: Colors.white,
                                 child: const Center(
@@ -118,8 +125,12 @@ class listview_poster_with_backdrop extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
                               listMovieData[index].status == null
-                                  ? Text("Tổng lượt vote: ${listMovieData[index].voteCount}")
-                                  : Text("${listMovieData[index].status == "Released" ? "Đã hoàn thành" : "Chưa ra mắt"}"),
+                                  ? Text(
+                                      "Tổng lượt vote: ${listMovieData[index].voteCount}")
+                                  : Text(
+                                      listMovieData[index].status == "Released"
+                                          ? "Đã hoàn thành"
+                                          : "Chưa ra mắt"),
                               const SizedBox(height: 10),
                               listMovieData[index].runtime == null
                                   ? Text("${listMovieData[index].releaseDate}")
@@ -149,10 +160,13 @@ class listview_poster_with_backdrop extends StatelessWidget {
                     BlocBuilder<AllLovedMoviesBloc, AllLovedMoviesState>(
                       builder: (context, state) {
                         if (state is AllLovedMoviesLoaded) {
-                          final isLoved =
-                              state.listAllLovedMovies.indexWhere((element) => element.id == listMovieData[index].id) != -1
-                                  ? true
-                                  : false;
+                          final isLoved = state.listAllLovedMovies.indexWhere(
+                                      (element) =>
+                                          element.id ==
+                                          listMovieData[index].id) !=
+                                  -1
+                              ? true
+                              : false;
                           if (isLoved) {
                             return Positioned(
                               top: 10,
@@ -162,8 +176,9 @@ class listview_poster_with_backdrop extends StatelessWidget {
                                   HapticFeedback.vibrate();
                                   showDialog(
                                     context: context,
-                                    builder: (context) => confirm_box(
-                                      content: """Bạn muốn gỡ bộ phim "${listMovieData[index].title}" khỏi danh sách ưu thích?""",
+                                    builder: (context) => ConfirmBox(
+                                      content:
+                                          """Bạn muốn gỡ bộ phim "${listMovieData[index].title}" khỏi danh sách ưu thích?""",
                                       movieID: listMovieData[index].id!,
                                     ),
                                   );

@@ -6,8 +6,7 @@ import 'package:cinerv/src/constants/path_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/movie.dart';
 import 'package:cinerv/src/ui/detail_movie/detail_movie_screen.dart';
-import 'package:cinerv/src/commons/formedCachedNetwork.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
+import 'package:cinerv/src/commons/formed_cached_network.dart';
 import 'package:cinerv/src/ui/lovelist/components/alert_dialog_confirm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:iconsax/iconsax.dart';
 
-class grid_poster extends StatelessWidget {
-  const grid_poster({
+class GridPoster extends StatelessWidget {
+  const GridPoster({
     Key? key,
     required this.movie,
   }) : super(key: key);
@@ -31,10 +30,17 @@ class grid_poster extends StatelessWidget {
       child: GestureDetector(
         onTap: () async {
           HapticFeedback.heavyImpact();
-          context.read<DetailMovieBloc>().add(GetDetailMovie(movieID: movie.id!));
+          context
+              .read<DetailMovieBloc>()
+              .add(GetDetailMovie(movieID: movie.id!));
           context.read<CastMovieBloc>().add(GetCastEvent(movieID: movie.id!));
-          context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: movie.id!));
-          Navigator.push(context, CupertinoPageRoute(builder: (context) => const DetailMovieScreen()));
+          context
+              .read<ReviewMovieBloc>()
+              .add(GetReviewMovie(movieID: movie.id!));
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => const DetailMovieScreen()));
         },
         child: Stack(
           children: [
@@ -49,15 +55,20 @@ class grid_poster extends StatelessWidget {
                     ),
                   )
                 : Positioned.fill(
-                    child: formedCachedImage(
-                      imageUrl: "$IMAGE_PATH_POSTER${movie.posterPath ?? movie.backdropPath}",
+                    child: FormedCachedImage(
+                      imageUrl:
+                          "$IMAGE_PATH_POSTER${movie.posterPath ?? movie.backdropPath}",
                     ),
                   ),
             BlocBuilder<AllLovedMoviesBloc, AllLovedMoviesState>(
               builder: (context, state) {
                 if (state is AllLovedMoviesLoaded) {
                   final listLovedMovies = state.listAllLovedMovies;
-                  final bool isLoved = listLovedMovies.indexWhere((element) => element.id == movie.id) != -1 ? true : false;
+                  final bool isLoved = listLovedMovies.indexWhere(
+                              (element) => element.id == movie.id) !=
+                          -1
+                      ? true
+                      : false;
                   if (isLoved) {
                     return Positioned(
                       top: 20,
@@ -67,8 +78,9 @@ class grid_poster extends StatelessWidget {
                           HapticFeedback.vibrate();
                           showDialog(
                             context: context,
-                            builder: (context) => confirm_box(
-                              content: """Bạn muốn gỡ bộ phim "${movie.title}" khỏi danh sách ưu thích?""",
+                            builder: (context) => ConfirmBox(
+                              content:
+                                  """Bạn muốn gỡ bộ phim "${movie.title}" khỏi danh sách ưu thích?""",
                               movieID: movie.id!,
                             ),
                           );

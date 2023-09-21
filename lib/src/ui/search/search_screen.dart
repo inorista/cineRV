@@ -4,7 +4,7 @@ import 'package:cinerv/src/blocs/popular_movie/popular_movie_bloc.dart';
 import 'package:cinerv/src/blocs/search_field/search_field_bloc.dart';
 import 'package:cinerv/src/blocs/search_history/search_history_bloc.dart';
 import 'package:cinerv/src/blocs/search_result/search_result_bloc.dart';
-import 'package:cinerv/src/commons/formedCachedNetwork.dart';
+import 'package:cinerv/src/commons/formed_cached_network.dart';
 import 'package:cinerv/src/commons/listview_poster_with_backdrop.dart';
 import 'package:cinerv/src/commons/search_textfield.dart';
 import 'package:cinerv/src/constants/path_constants.dart';
@@ -31,13 +31,13 @@ class SearchScreen extends StatelessWidget {
             BlocBuilder<PopularMovieBloc, PopularMovieState>(
               builder: (context, popularState) {
                 if (popularState is PopularMovieLoaded) {
-                  final backdrop_blur_movie = popularState.popularMovies[1];
+                  final backdropBlurMovie = popularState.popularMovies[1];
                   return SizedBox(
                     height: deviceHeight / 5,
                     width: deviceWidth,
-                    child: formedCachedImage(
+                    child: FormedCachedImage(
                       imageUrl:
-                          "$IMAGE_PATH_BACKDROP${backdrop_blur_movie.backdropPath ?? backdrop_blur_movie.posterPath}",
+                          "$IMAGE_PATH_BACKDROP${backdropBlurMovie.backdropPath ?? backdropBlurMovie.posterPath}",
                       errorWidget: Container(),
                     ),
                   );
@@ -69,13 +69,16 @@ class SearchScreen extends StatelessWidget {
                   bool isBottom = metrics.pixels == 0;
 
                   if (!isBottom) {
-                    context.read<SearchResultBloc>()..add(const GetMoreMovieByKeyword());
+                    context
+                        .read<SearchResultBloc>()
+                        .add(const GetMoreMovieByKeyword());
                   }
                 }
                 return true;
               },
               child: CustomScrollView(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 slivers: [
                   SliverAppBar(
                     elevation: 0,
@@ -99,7 +102,7 @@ class SearchScreen extends StatelessWidget {
                       SizedBox(
                         height: 80,
                         width: deviceWidth / 1.1,
-                        child: const search_textfield(),
+                        child: const SearchTextfield(),
                       )
                     ],
                   ),
@@ -112,7 +115,8 @@ class SearchScreen extends StatelessWidget {
                             final listAllMovies = searchState.listMoviesLoaded;
                             if (listAllMovies.isEmpty) {
                               return const Center(
-                                child: Text("Không có kết quả cho từ khóa trên"),
+                                child:
+                                    Text("Không có kết quả cho từ khóa trên"),
                               );
                             }
                             return Column(
@@ -120,28 +124,34 @@ class SearchScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: Text(
                                     "Các kết quả trùng khớp",
                                     style: kStyleLoveListTitle,
                                   ),
                                 ),
-                                listview_poster_with_backdrop(listMovieData: listAllMovies),
+                                ListViewPosterWithBackdrop(
+                                    listMovieData: listAllMovies),
                               ],
                             );
                           } else if (searchState is SearchResultInitial) {
-                            return BlocBuilder<SearchHistoryBloc, SearchHistoryState>(
+                            return BlocBuilder<SearchHistoryBloc,
+                                SearchHistoryState>(
                               builder: (context, searchState) {
                                 if (searchState is SearchHistoryLoaded) {
                                   final listHistory = searchState.searchHistory;
                                   return Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text(
                                               "Tìm kiếm gần đây",
@@ -149,7 +159,9 @@ class SearchScreen extends StatelessWidget {
                                             ),
                                             GestureDetector(
                                               onTap: () async {
-                                                context.read<SearchHistoryBloc>().add(ClearSearchHistory());
+                                                context
+                                                    .read<SearchHistoryBloc>()
+                                                    .add(ClearSearchHistory());
                                               },
                                               child: const Icon(
                                                 EvaIcons.trash2,
@@ -161,7 +173,8 @@ class SearchScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 10),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
                                         child: Wrap(
                                           children: [
                                             ...List.generate(
@@ -170,21 +183,36 @@ class SearchScreen extends StatelessWidget {
                                                 onTap: () async {
                                                   context
                                                       .read<SearchResultBloc>()
-                                                      .add(SearchMovieByKeyWord(keyword: listHistory[index]));
+                                                      .add(SearchMovieByKeyWord(
+                                                          keyword: listHistory[
+                                                              index]));
                                                   context
                                                       .read<SearchFieldBloc>()
-                                                      .add(SearchByHistoryKeyword(keyword: listHistory[index]));
+                                                      .add(
+                                                          SearchByHistoryKeyword(
+                                                              keyword:
+                                                                  listHistory[
+                                                                      index]));
                                                 },
                                                 child: Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 8),
                                                   child: Container(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 8),
                                                     decoration: BoxDecoration(
-                                                      color: const Color(0xff545454),
-                                                      borderRadius: BorderRadius.circular(5),
+                                                      color: const Color(
+                                                          0xff545454),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
                                                     ),
                                                     child: Text(
-                                                      "${listHistory[index]}",
+                                                      listHistory[index],
                                                       style: kStyeHistoryItem,
                                                     ),
                                                   ),

@@ -32,7 +32,9 @@ class LoveListScreen extends StatelessWidget {
     Future<List<String>> getAllMovieID() async {
       final prefs = await SharedPreferences.getInstance();
       final listStringMovieID = prefs.getStringList('lovelist');
-      context.read<AllLovedMoviesBloc>().add(GetAllLovedMovies(listStringID: listStringMovieID ?? []));
+      context
+          .read<AllLovedMoviesBloc>()
+          .add(GetAllLovedMovies(listStringID: listStringMovieID ?? []));
       return listStringMovieID ?? [];
     }
 
@@ -76,7 +78,9 @@ class LoveListScreen extends StatelessWidget {
                 builder: (context, movieState) {
                   if (movieState is AllLovedMoviesLoaded) {
                     final listMovieData = movieState.listAllLovedMovies;
-                    final rdItem = listMovieData.isEmpty ? null : listMovieData[rd.nextInt(listMovieData.length)];
+                    final rdItem = listMovieData.isEmpty
+                        ? null
+                        : listMovieData[rd.nextInt(listMovieData.length)];
                     if (listMovieData.isEmpty) {
                       return SizedBox(
                         height: deviceHeight,
@@ -100,7 +104,8 @@ class LoveListScreen extends StatelessWidget {
                       );
                     } else {
                       return CustomScrollView(
-                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
                         slivers: [
                           SliverPersistentHeader(
                             floating: false,
@@ -111,7 +116,8 @@ class LoveListScreen extends StatelessWidget {
                           ),
                           SliverToBoxAdapter(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +139,7 @@ class LoveListScreen extends StatelessWidget {
                           SliverToBoxAdapter(
                             child: Container(
                               color: const Color(0xff181818),
-                              child: listview_poster_with_backdrop(
+                              child: ListViewPosterWithBackdrop(
                                 listMovieData: listMovieData,
                               ),
                             ),

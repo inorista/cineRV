@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
-import 'package:cinerv/src/commons/formedCachedNetwork.dart';
+import 'package:cinerv/src/commons/formed_cached_network.dart';
 
 class DetailMovieScreen extends StatelessWidget {
   const DetailMovieScreen({
@@ -38,18 +38,21 @@ class DetailMovieScreen extends StatelessWidget {
                   builder: (context, loveState) {
                     if (detailState is DetailMovieLoaded) {
                       if (loveState is AllLovedMoviesLoaded) {
-                        final bool isLoved =
-                            loveState.listAllLovedMovies.indexWhere((e) => e.id == detailState.movie.id) != -1
-                                ? true
-                                : false;
+                        final bool isLoved = loveState.listAllLovedMovies
+                                    .indexWhere(
+                                        (e) => e.id == detailState.movie.id) !=
+                                -1
+                            ? true
+                            : false;
 
                         if (isLoved) {
                           return Bounceable(
                             onTap: () async {
                               HapticFeedback.heavyImpact();
-                              context
-                                  .read<AllLovedMoviesBloc>()
-                                  .add(RemoveMovieFromList(movieID: detailState.movie.id!.toString()));
+                              context.read<AllLovedMoviesBloc>().add(
+                                  RemoveMovieFromList(
+                                      movieID:
+                                          detailState.movie.id!.toString()));
                             },
                             child: Icon(
                               Iconsax.heart5,
@@ -114,8 +117,9 @@ class DetailMovieScreen extends StatelessWidget {
                     width: deviceWidth,
                     child: movie.backdropPath == null
                         ? Container()
-                        : formedCachedImage(
-                            imageUrl: "$IMAGE_PATH_BACKDROP${movie.backdropPath ?? movie.posterPath}",
+                        : FormedCachedImage(
+                            imageUrl:
+                                "$IMAGE_PATH_BACKDROP${movie.backdropPath ?? movie.posterPath}",
                           ),
                   ),
                 ),
@@ -136,7 +140,8 @@ class DetailMovieScreen extends StatelessWidget {
                   ),
                 ),
                 CustomScrollView(
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   slivers: [
                     SliverToBoxAdapter(
                       child: Padding(
@@ -167,8 +172,9 @@ class DetailMovieScreen extends StatelessWidget {
                                     )
                                   : ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: formedCachedImage(
-                                        imageUrl: "$IMAGE_PATH_POSTER${movie.posterPath}",
+                                      child: FormedCachedImage(
+                                        imageUrl:
+                                            "$IMAGE_PATH_POSTER${movie.posterPath}",
                                       ),
                                     ),
                               Container(width: 14),
@@ -178,7 +184,9 @@ class DetailMovieScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      movie.status == "Released" ? "Đã hoàn thành" : "Phim chưa ra mắt",
+                                      movie.status == "Released"
+                                          ? "Đã hoàn thành"
+                                          : "Phim chưa ra mắt",
                                       style: kStyleStatusMovie,
                                     ),
                                     Container(height: 10),
@@ -217,7 +225,8 @@ class DetailMovieScreen extends StatelessWidget {
                           children: [
                             Container(height: 5),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
                                 "${movie.title == movie.originalTitle ? movie.title : "${movie.title}\n(${movie.originalTitle})"}",
                                 style: kStyleSummaries,
@@ -225,7 +234,8 @@ class DetailMovieScreen extends StatelessWidget {
                             ),
                             Container(height: 10),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Row(
                                 children: [
                                   Image.asset(
@@ -241,18 +251,22 @@ class DetailMovieScreen extends StatelessWidget {
                             ),
                             Container(height: 10),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               child: Wrap(
                                 children: [
                                   ...List.generate(
                                     movie.genres?.length ?? 0,
                                     (index) => Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 8),
                                       child: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 8),
                                         decoration: BoxDecoration(
                                           color: const Color(0xff545454),
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                         ),
                                         child: Text(
                                           "${movie.genres?[index].name?.replaceAll("Phim", "")}",
@@ -265,7 +279,7 @@ class DetailMovieScreen extends StatelessWidget {
                               ),
                             ),
                             Container(height: 20),
-                            const customDivider(),
+                            const CustomDivider(),
                             Container(height: 20),
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -276,7 +290,8 @@ class DetailMovieScreen extends StatelessWidget {
                             ),
                             Container(height: 10),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: ReadMoreText(
                                 "${movie.overview == "" ? "Phim chưa cập nhật nội dung chính." : movie.overview}",
                                 trimLines: 3,
@@ -304,27 +319,37 @@ class DetailMovieScreen extends StatelessWidget {
                                   return const CupertinoActivityIndicator();
                                 } else if (state is CastMovieLoaded) {
                                   return ListView.builder(
-                                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                    physics: const BouncingScrollPhysics(
+                                        parent:
+                                            AlwaysScrollableScrollPhysics()),
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
-                                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                                    itemCount: state.castLoaded.cast?.length ?? 0,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    itemCount:
+                                        state.castLoaded.cast?.length ?? 0,
                                     itemBuilder: (context, index) {
                                       final listCast = state.castLoaded.cast;
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
                                         child: SizedBox(
                                           width: deviceWidth / 2.5,
                                           child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              listCast![index].profilePath == null
+                                              listCast![index].profilePath ==
+                                                      null
                                                   ? Container(
                                                       height: 50,
                                                       width: 50,
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(100),
-                                                        color: const Color(0xff545454),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
+                                                        color: const Color(
+                                                            0xff545454),
                                                       ),
                                                       child: const Center(
                                                         child: Icon(
@@ -334,21 +359,30 @@ class DetailMovieScreen extends StatelessWidget {
                                                       ),
                                                     )
                                                   : ClipRRect(
-                                                      borderRadius: BorderRadius.circular(50),
-                                                      child: formedCachedImage(
-                                                        imageUrl: "$IMAGE_PATH_CASTER${listCast[index].profilePath}",
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      child: FormedCachedImage(
+                                                        imageUrl:
+                                                            "$IMAGE_PATH_CASTER${listCast[index].profilePath}",
                                                         height: 50,
                                                         width: 50,
                                                         errorWidget: Container(
                                                           height: 50,
                                                           width: 50,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(100),
-                                                            color: const Color(0xff545454),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                            color: const Color(
+                                                                0xff545454),
                                                           ),
                                                           child: const Center(
                                                             child: Icon(
-                                                              EvaIcons.questionMark,
+                                                              EvaIcons
+                                                                  .questionMark,
                                                               size: 25,
                                                             ),
                                                           ),
@@ -358,8 +392,11 @@ class DetailMovieScreen extends StatelessWidget {
                                               Container(width: 12),
                                               Flexible(
                                                   child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     "${listCast[index].originalName}",
@@ -378,7 +415,8 @@ class DetailMovieScreen extends StatelessWidget {
                                     },
                                   );
                                 } else {
-                                  return const Text("Chưa cập nhật credit phim.");
+                                  return const Text(
+                                      "Chưa cập nhật credit phim.");
                                 }
                               },
                             ),
@@ -419,34 +457,46 @@ class DetailMovieScreen extends StatelessWidget {
                               return ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 20),
                                 addAutomaticKeepAlives: true,
                                 itemCount: reviewState.listReviews.length,
                                 itemBuilder: (context, index) => Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
-                                          listReviews[index].authorDetails?.avatarPath == null
+                                          listReviews[index]
+                                                      .authorDetails
+                                                      ?.avatarPath ==
+                                                  null
                                               ? Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 15),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 15),
                                                   child: Container(
                                                     height: 30,
                                                     width: 30,
                                                     decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(30),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
                                                       color: Colors.black,
                                                     ),
                                                   ),
                                                 )
                                               : Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 15),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 15),
                                                   child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(40),
-                                                    child: formedCachedImage(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                    child: FormedCachedImage(
                                                       imageUrl:
                                                           "$IMAGE_PATH_CASTER${listReviews[index].authorDetails?.avatarPath}",
                                                       height: 30,
@@ -455,26 +505,31 @@ class DetailMovieScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                           Container(width: 10),
-                                          Text(listReviews[index].authorDetails?.username ?? "Anonymous"),
+                                          Text(listReviews[index]
+                                                  .authorDetails
+                                                  ?.username ??
+                                              "Anonymous"),
                                         ],
                                       ),
                                       ReadMoreText(
                                         "${listReviews[index].content}",
                                         trimLines: 5,
-                                        colorClickableText: const Color(0xffe21221),
+                                        colorClickableText:
+                                            const Color(0xffe21221),
                                         trimMode: TrimMode.Line,
                                         trimCollapsedText: "xem thêm",
                                         trimExpandedText: "...rút gọn",
                                         style: kStyleContentReview,
                                       ),
                                       Container(height: 20),
-                                      const customDivider(),
+                                      const CustomDivider(),
                                     ],
                                   ),
                                 ),
                               );
                             } else {
-                              return const Text("Hiện chưa có bình luận nào...");
+                              return const Text(
+                                  "Hiện chưa có bình luận nào...");
                             }
                           },
                         ),
@@ -495,8 +550,8 @@ class DetailMovieScreen extends StatelessWidget {
   bool get wantKeepAlive => true;
 }
 
-class customDivider extends StatelessWidget {
-  const customDivider({
+class CustomDivider extends StatelessWidget {
+  const CustomDivider({
     Key? key,
   }) : super(key: key);
 

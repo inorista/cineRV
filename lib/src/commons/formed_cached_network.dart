@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
-class formedCachedImage extends StatelessWidget {
-  const formedCachedImage({
+class FormedCachedImage extends StatelessWidget {
+  const FormedCachedImage({
     Key? key,
     required this.imageUrl,
     this.height,
@@ -24,7 +24,8 @@ class formedCachedImage extends StatelessWidget {
       fit: BoxFit.cover,
       fadeInDuration: const Duration(microseconds: 50),
       fadeOutDuration: const Duration(microseconds: 50),
-      placeholder: (context, url) => const Center(child: CupertinoActivityIndicator()),
+      placeholder: (context, url) =>
+          const Center(child: CupertinoActivityIndicator()),
       errorWidget: (context, url, error) =>
           errorWidget ??
           Container(

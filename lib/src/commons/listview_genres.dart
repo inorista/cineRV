@@ -8,8 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class listview_genres extends StatelessWidget {
-  const listview_genres({
+class ListViewGenres extends StatelessWidget {
+  const ListViewGenres({
     Key? key,
     required this.listAllGenres,
   }) : super(key: key);
@@ -26,20 +26,20 @@ class listview_genres extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: listAllGenres.length,
       itemBuilder: (context, index) {
-        final image_path_genre = getStringGenre(listAllGenres[index].name!);
+        final imagePathGenre = getStringGenre(listAllGenres[index].name!);
         return GestureDetector(
           onTap: () async {
-            context.read<DetailGenreBloc>()
-              ..add(
-                GetMovieByGenre(
-                  genreID: listAllGenres[index].id.toString(),
-                ),
-              );
+            context.read<DetailGenreBloc>().add(
+                  GetMovieByGenre(
+                    genreID: listAllGenres[index].id.toString(),
+                  ),
+                );
             Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (context) =>
-                    DetailGenresScreen(genre: listAllGenres[index], backdrop_image: image_path_genre.toString()),
+                builder: (context) => DetailGenresScreen(
+                    genre: listAllGenres[index],
+                    backDropImage: imagePathGenre.toString()),
               ),
             );
           },
@@ -63,7 +63,7 @@ class listview_genres extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
-                      image_path_genre,
+                      imagePathGenre,
                       fit: BoxFit.cover,
                     ),
                   ),

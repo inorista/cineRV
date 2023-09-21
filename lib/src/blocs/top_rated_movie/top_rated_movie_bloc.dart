@@ -13,8 +13,8 @@ class TopRatedMovieBloc extends Bloc<TopRatedMovieEvent, TopRatedMovieState> {
     final _theMovieDBApi = TheMovieDBApi(_dio);
     on<GetTopRatedMovies>((event, emit) async {
       emit(TopRatedMovieLoading());
-      final topRated_movies = await _theMovieDBApi.getTopRatedMovies();
-      emit(TopRatedMovieLoaded(topRated_movies: topRated_movies));
+      final topRatedMovies = await _theMovieDBApi.getTopRatedMovies();
+      emit(TopRatedMovieLoaded(topRatedMovies: topRatedMovies));
     });
   }
 }

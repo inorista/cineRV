@@ -10,9 +10,9 @@ abstract class TrendingMovieState extends Equatable {
 class TrendingMovieLoading extends TrendingMovieState {}
 
 class TrendingMovieLoaded extends TrendingMovieState {
-  final List<Movie> movies_loaded;
-  const TrendingMovieLoaded({this.movies_loaded = const <Movie>[]});
+  final List<Movie> moviesLoaded;
+  const TrendingMovieLoaded({this.moviesLoaded = const <Movie>[]});
 
   @override
-  List<Object> get props => [movies_loaded];
+  List<Object> get props => [moviesLoaded];
 }

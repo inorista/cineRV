@@ -13,8 +13,8 @@ class UpcomingMovieBloc extends Bloc<UpcomingMovieEvent, UpcomingMovieState> {
     final _theMovieDBApi = TheMovieDBApi(_dio);
     on<GetUpcomingMovie>((event, emit) async {
       emit(UpcomingMovieLoading());
-      final upcoming_movies = await _theMovieDBApi.getUpcomingMovies();
-      emit(UpcomingMovieLoaded(upcoming_movies: upcoming_movies));
+      final upComingMovies = await _theMovieDBApi.getUpcomingMovies();
+      emit(UpcomingMovieLoaded(upComingMovies: upComingMovies));
     });
   }
 }

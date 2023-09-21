@@ -4,8 +4,8 @@ import 'package:cinerv/src/commons/grid_poster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class gridview_movie extends StatelessWidget {
-  const gridview_movie({
+class GridViewMovie extends StatelessWidget {
+  const GridViewMovie({
     Key? key,
     required this.listAllMovies,
   }) : super(key: key);
@@ -17,7 +17,6 @@ class gridview_movie extends StatelessWidget {
     return BlocBuilder<AllLovedMoviesBloc, AllLovedMoviesState>(
       builder: (context, state) {
         if (state is AllLovedMoviesLoaded) {
-          final lovedMovies = state.listAllLovedMovies;
           return GridView.builder(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -32,7 +31,7 @@ class gridview_movie extends StatelessWidget {
             ),
             itemBuilder: (BuildContext context, int index) {
               final movie = listAllMovies[index];
-              return grid_poster(
+              return GridPoster(
                 movie: movie,
               );
             },

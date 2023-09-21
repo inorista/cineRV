@@ -10,8 +10,8 @@ abstract class TopRatedMovieState extends Equatable {
 class TopRatedMovieLoading extends TopRatedMovieState {}
 
 class TopRatedMovieLoaded extends TopRatedMovieState {
-  final List<Movie> topRated_movies;
-  const TopRatedMovieLoaded({required this.topRated_movies});
+  final List<Movie> topRatedMovies;
+  const TopRatedMovieLoaded({required this.topRatedMovies});
   @override
-  List<Object> get props => [topRated_movies];
+  List<Object> get props => [topRatedMovies];
 }

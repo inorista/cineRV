@@ -1,13 +1,12 @@
 import 'package:cinerv/src/blocs/trending_movie/trending_movie_bloc.dart';
 import 'package:cinerv/src/commons/listview_movies.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/ui/detail_category/detail_category_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class most_view extends StatelessWidget {
-  const most_view({
+class MostView extends StatelessWidget {
+  const MostView({
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +33,7 @@ class most_view extends StatelessWidget {
                   BlocBuilder<TrendingMovieBloc, TrendingMovieState>(
                     builder: (context, state) {
                       if (state is TrendingMovieLoaded) {
-                        final listTrendingMovie = state.movies_loaded;
+                        final listTrendingMovie = state.moviesLoaded;
 
                         return GestureDetector(
                           onTap: () async {
@@ -66,8 +65,8 @@ class most_view extends StatelessWidget {
                   if (state is TrendingMovieLoading) {
                     return const Center(child: CupertinoActivityIndicator());
                   } else if (state is TrendingMovieLoaded) {
-                    final listTrendingMovies = state.movies_loaded;
-                    return listview_movie(listMovies: listTrendingMovies);
+                    final listTrendingMovies = state.moviesLoaded;
+                    return ListViewMovie(listMovies: listTrendingMovies);
                   }
                   return Container();
                 },

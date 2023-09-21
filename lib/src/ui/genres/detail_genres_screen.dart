@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:cinerv/src/blocs/detail_genre/detail_genre_bloc.dart';
-import 'package:cinerv/src/commons/grid_poster.dart';
 import 'package:cinerv/src/commons/gridview_movie.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/genre.dart';
@@ -13,10 +12,10 @@ class DetailGenresScreen extends StatelessWidget {
   const DetailGenresScreen({
     super.key,
     required this.genre,
-    required this.backdrop_image,
+    required this.backDropImage,
   });
   final Genre genre;
-  final String backdrop_image;
+  final String backDropImage;
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
@@ -31,7 +30,7 @@ class DetailGenresScreen extends StatelessWidget {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             EvaIcons.arrowBack,
             size: 25,
           ),
@@ -49,7 +48,7 @@ class DetailGenresScreen extends StatelessWidget {
                 height: deviceHeight / 3,
                 width: deviceWidth,
                 child: Image.asset(
-                  backdrop_image,
+                  backDropImage,
                 ),
               ),
             ),
@@ -76,18 +75,18 @@ class DetailGenresScreen extends StatelessWidget {
                   bool isBottom = metrics.pixels == 0;
 
                   if (!isBottom) {
-                    context.read<DetailGenreBloc>()
-                      ..add(
-                        GetMoreMovieByGenre(
-                          genreID: genre.id.toString(),
-                        ),
-                      );
+                    context.read<DetailGenreBloc>().add(
+                          GetMoreMovieByGenre(
+                            genreID: genre.id.toString(),
+                          ),
+                        );
                   }
                 }
                 return true;
               },
               child: CustomScrollView(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 slivers: [
                   SliverToBoxAdapter(
                     child: Column(
@@ -112,9 +111,10 @@ class DetailGenresScreen extends StatelessWidget {
                       builder: (context, state) {
                         if (state is DetailGenreLoaded) {
                           final listDetailGenreMovie = state.moviesGenre;
-                          return gridview_movie(listAllMovies: listDetailGenreMovie);
+                          return GridViewMovie(
+                              listAllMovies: listDetailGenreMovie);
                         }
-                        return SizedBox();
+                        return const SizedBox();
                       },
                     ),
                   ),

@@ -7,13 +7,13 @@ class Credit {
     if (json['cast'] != null) {
       cast = <Cast>[];
       json['cast'].forEach((v) {
-        cast!.add(new Cast.fromJson(v));
+        cast!.add(Cast.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (cast != null) {
       data['cast'] = cast!.map((v) => v.toJson()).toList();
     }
@@ -65,7 +65,7 @@ class Cast {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['adult'] = adult;
     data['gender'] = gender;
     data['id'] = id;

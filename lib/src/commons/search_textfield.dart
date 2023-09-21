@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 
-class search_textfield extends StatelessWidget {
-  const search_textfield({
+class SearchTextfield extends StatelessWidget {
+  const SearchTextfield({
     Key? key,
   }) : super(key: key);
 
@@ -31,9 +31,13 @@ class search_textfield extends StatelessWidget {
               },
               onFieldSubmitted: (value) async {
                 if (!value.isEmpty) {
-                  context.read<SearchResultBloc>().add(SearchMovieByKeyWord(keyword: value));
+                  context
+                      .read<SearchResultBloc>()
+                      .add(SearchMovieByKeyWord(keyword: value));
                 }
-                context.read<SearchHistoryBloc>().add(AddKeywordToHistoryList(keyword: value));
+                context
+                    .read<SearchHistoryBloc>()
+                    .add(AddKeywordToHistoryList(keyword: value));
               },
               controller: state.textController,
               maxLines: 1,

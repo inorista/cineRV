@@ -1,6 +1,5 @@
 import 'package:cinerv/src/blocs/genres_discover/genres_discover_bloc.dart';
 import 'package:cinerv/src/blocs/search_result/search_result_bloc.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/commons/listview_genres.dart';
 import 'package:cinerv/src/ui/search/search_screen.dart';
@@ -8,8 +7,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class discover_view extends StatelessWidget {
-  const discover_view({
+class DiscoverView extends StatelessWidget {
+  const DiscoverView({
     Key? key,
   }) : super(key: key);
 
@@ -29,7 +28,8 @@ class discover_view extends StatelessWidget {
         return true;
       },
       child: CustomScrollView(
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           SliverToBoxAdapter(
             child: Column(
@@ -48,7 +48,11 @@ class discover_view extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            Navigator.push(context, CupertinoPageRoute(builder: (context) => const SearchScreen()));
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const SearchScreen()));
                           },
                           child: Container(
                             height: 35,
@@ -92,7 +96,7 @@ class discover_view extends StatelessWidget {
                   }
                   if (genreState is GenreDiscoverLoaded) {
                     final listAllGenres = genreState.listGenres;
-                    return listview_genres(listAllGenres: listAllGenres);
+                    return ListViewGenres(listAllGenres: listAllGenres);
                   }
 
                   return Container();

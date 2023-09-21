@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cinerv/src/blocs/bottom_navigator/bottom_navigator_bloc.dart';
 import 'package:cinerv/src/ui/discover/discover_screen.dart';
 import 'package:cinerv/src/ui/home/home_screen.dart';
@@ -30,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
             ],
           ),
           bottomNavigationBar: SizedBox(
-            height: 82,
+            height: Platform.isAndroid ? 65 : 82,
             child: Theme(
               data: ThemeData(
                 splashColor: Colors.transparent,
@@ -50,7 +52,9 @@ class DashboardScreen extends StatelessWidget {
                 selectedFontSize: 10,
                 unselectedFontSize: 10,
                 onTap: (index) {
-                  context.read<BottomNavigatorBloc>().add(ChangeIndexEvent(index: index));
+                  context
+                      .read<BottomNavigatorBloc>()
+                      .add(ChangeIndexEvent(index: index));
                 },
                 currentIndex: state.index,
                 items: const [

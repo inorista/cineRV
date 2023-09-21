@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:cinerv/src/blocs/popular_movie/popular_movie_bloc.dart';
-import 'package:cinerv/src/commons/formedCachedNetwork.dart';
+import 'package:cinerv/src/commons/formed_cached_network.dart';
 import 'package:cinerv/src/constants/path_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/ui/home/components/most_view.dart';
@@ -29,8 +29,9 @@ class HomeScreen extends StatelessWidget {
                 builder: (context, popularState) {
                   if (popularState is PopularMovieLoaded) {
                     final firstPopular = popularState.popularMovies[3];
-                    return formedCachedImage(
-                      imageUrl: "$IMAGE_PATH_BACKDROP${firstPopular.backdropPath ?? firstPopular.posterPath}",
+                    return FormedCachedImage(
+                      imageUrl:
+                          "$IMAGE_PATH_BACKDROP${firstPopular.backdropPath ?? firstPopular.posterPath}",
                     );
                   }
                   return Container();
@@ -52,7 +53,8 @@ class HomeScreen extends StatelessWidget {
             ),
             CustomScrollView(
               primary: false,
-              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               slivers: [
                 SliverToBoxAdapter(child: Container(height: 60)),
                 const SliverToBoxAdapter(
@@ -67,11 +69,11 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const swiper_carousel(),
+                const SwiperCarousel(),
                 SliverToBoxAdapter(child: Container(height: 20)),
-                const most_view(),
-                const top_rated(),
-                const up_coming(),
+                const MostView(),
+                const TopRated(),
+                const UpComing(),
                 SliverToBoxAdapter(child: Container(height: 100)),
               ],
             ),

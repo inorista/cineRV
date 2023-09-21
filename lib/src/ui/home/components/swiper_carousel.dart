@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class swiper_carousel extends StatelessWidget {
-  const swiper_carousel({
+class SwiperCarousel extends StatelessWidget {
+  const SwiperCarousel({
     Key? key,
   }) : super(key: key);
 
@@ -30,10 +30,11 @@ class swiper_carousel extends StatelessWidget {
                 scale: 0.95,
                 viewportFraction: 0.9,
                 layout: SwiperLayout.DEFAULT,
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 duration: 200,
                 itemBuilder: (BuildContext context, int index) {
-                  return swiper_item(moviePopular: listPopular[index]);
+                  return SwiperItem(moviePopular: listPopular[index]);
                 },
                 itemCount: listPopular.length,
               ),

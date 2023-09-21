@@ -10,8 +10,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class swiper_item extends StatelessWidget {
-  const swiper_item({
+class SwiperItem extends StatelessWidget {
+  const SwiperItem({
     Key? key,
     required this.moviePopular,
   }) : super(key: key);
@@ -22,9 +22,15 @@ class swiper_item extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        context.read<DetailMovieBloc>().add(GetDetailMovie(movieID: moviePopular.id!));
-        context.read<CastMovieBloc>().add(GetCastEvent(movieID: moviePopular.id!));
-        context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: moviePopular.id!));
+        context
+            .read<DetailMovieBloc>()
+            .add(GetDetailMovie(movieID: moviePopular.id!));
+        context
+            .read<CastMovieBloc>()
+            .add(GetCastEvent(movieID: moviePopular.id!));
+        context
+            .read<ReviewMovieBloc>()
+            .add(GetReviewMovie(movieID: moviePopular.id!));
         Navigator.push(
           context,
           CupertinoPageRoute(
@@ -41,7 +47,8 @@ class swiper_item extends StatelessWidget {
                 height: 120,
                 width: 120,
                 fit: BoxFit.cover,
-                imageUrl: "$IMAGE_PATH_BACKDROP_POPULAR${moviePopular.backdropPath ?? moviePopular.posterPath}",
+                imageUrl:
+                    "$IMAGE_PATH_BACKDROP_POPULAR${moviePopular.backdropPath ?? moviePopular.posterPath}",
               ),
             ),
           ),

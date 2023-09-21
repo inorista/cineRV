@@ -1,13 +1,12 @@
 import 'package:cinerv/src/blocs/top_rated_movie/top_rated_movie_bloc.dart';
 import 'package:cinerv/src/commons/listview_movies.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/ui/detail_category/detail_category_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class top_rated extends StatelessWidget {
-  const top_rated({
+class TopRated extends StatelessWidget {
+  const TopRated({
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +33,7 @@ class top_rated extends StatelessWidget {
                   BlocBuilder<TopRatedMovieBloc, TopRatedMovieState>(
                     builder: (context, state) {
                       if (state is TopRatedMovieLoaded) {
-                        final listTopRatedMovie = state.topRated_movies;
+                        final listTopRatedMovie = state.topRatedMovies;
 
                         return GestureDetector(
                           onTap: () async {
@@ -66,8 +65,8 @@ class top_rated extends StatelessWidget {
                   if (state is TopRatedMovieLoading) {
                     return const Center(child: CupertinoActivityIndicator());
                   } else if (state is TopRatedMovieLoaded) {
-                    final listTopRatedMovies = state.topRated_movies;
-                    return listview_movie(listMovies: listTopRatedMovies);
+                    final listTopRatedMovies = state.topRatedMovies;
+                    return ListViewMovie(listMovies: listTopRatedMovies);
                   }
                   return Container();
                 },

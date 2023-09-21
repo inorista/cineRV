@@ -1,13 +1,12 @@
 import 'package:cinerv/src/blocs/upcoming_movie/upcoming_movie_bloc.dart';
 import 'package:cinerv/src/commons/listview_movies.dart';
-import 'package:cinerv/src/commons/page_transition.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/ui/detail_category/detail_category_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class up_coming extends StatelessWidget {
-  const up_coming({
+class UpComing extends StatelessWidget {
+  const UpComing({
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +33,7 @@ class up_coming extends StatelessWidget {
                   BlocBuilder<UpcomingMovieBloc, UpcomingMovieState>(
                     builder: (context, state) {
                       if (state is UpcomingMovieLoaded) {
-                        final lisUpcomingMovie = state.upcoming_movies;
+                        final lisUpcomingMovie = state.upComingMovies;
 
                         return GestureDetector(
                           onTap: () async {
@@ -66,8 +65,8 @@ class up_coming extends StatelessWidget {
                   if (state is UpcomingMovieLoading) {
                     return const Center(child: CupertinoActivityIndicator());
                   } else if (state is UpcomingMovieLoaded) {
-                    final listUpcomingMovies = state.upcoming_movies;
-                    return listview_movie(listMovies: listUpcomingMovies);
+                    final listUpcomingMovies = state.upComingMovies;
+                    return ListViewMovie(listMovies: listUpcomingMovies);
                   }
                   return Container();
                 },

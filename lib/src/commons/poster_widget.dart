@@ -2,7 +2,7 @@ import 'package:cinerv/src/blocs/all_loved_movies/all_loved_movies_bloc.dart';
 import 'package:cinerv/src/blocs/cast_movie/cast_movie_bloc.dart';
 import 'package:cinerv/src/blocs/detail_movie/detail_movie_bloc.dart';
 import 'package:cinerv/src/blocs/review_movie/review_movie_bloc.dart';
-import 'package:cinerv/src/commons/formedCachedNetwork.dart';
+import 'package:cinerv/src/commons/formed_cached_network.dart';
 import 'package:cinerv/src/constants/path_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/models/movie.dart';
@@ -16,8 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:iconsax/iconsax.dart';
 
-class poster_widget extends StatelessWidget {
-  const poster_widget({
+class PosterWidget extends StatelessWidget {
+  const PosterWidget({
     Key? key,
     required this.movie,
   }) : super(key: key);
@@ -34,8 +34,8 @@ class poster_widget extends StatelessWidget {
         context.read<ReviewMovieBloc>().add(GetReviewMovie(movieID: movie.id!));
         Navigator.push(
           context,
-          CupertinoPageRoute(builder: (context) =>  const DetailMovieScreen(),
-            
+          CupertinoPageRoute(
+            builder: (context) => const DetailMovieScreen(),
           ),
         );
       },
@@ -51,7 +51,7 @@ class poster_widget extends StatelessWidget {
               Positioned.fill(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: formedCachedImage(
+                  child: FormedCachedImage(
                     imageUrl: "$IMAGE_PATH_BACKDROP${movie.posterPath}",
                     errorWidget: Container(
                       color: Colors.white,
@@ -69,8 +69,11 @@ class poster_widget extends StatelessWidget {
                 builder: (context, state) {
                   if (state is AllLovedMoviesLoaded) {
                     final listLovedMovies = state.listAllLovedMovies;
-                    final bool isLoved =
-                        listLovedMovies.indexWhere((element) => element.id == movie.id) != -1 ? true : false;
+                    final bool isLoved = listLovedMovies.indexWhere(
+                                (element) => element.id == movie.id) !=
+                            -1
+                        ? true
+                        : false;
                     if (isLoved) {
                       return Positioned(
                         top: 20,
@@ -80,8 +83,9 @@ class poster_widget extends StatelessWidget {
                             HapticFeedback.vibrate();
                             showDialog(
                               context: context,
-                              builder: (context) => confirm_box(
-                                content: """Bạn muốn gỡ bộ phim "${movie.title}" khỏi danh sách ưu thích?""",
+                              builder: (context) => ConfirmBox(
+                                content:
+                                    """Bạn muốn gỡ bộ phim "${movie.title}" khỏi danh sách ưu thích?""",
                                 movieID: movie.id!,
                               ),
                             );
