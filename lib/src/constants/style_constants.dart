@@ -41,6 +41,12 @@ const TextStyle kStyleSummaries = TextStyle(
   color: Colors.white,
 );
 
+const TextStyle kStyleStickName = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+);
+
 const TextStyle kStyleOverview = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,

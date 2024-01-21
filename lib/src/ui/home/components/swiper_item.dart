@@ -38,8 +38,6 @@ class swiper_item extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
-                height: 120,
-                width: 120,
                 fit: BoxFit.cover,
                 imageUrl: "$IMAGE_PATH_BACKDROP_POPULAR${moviePopular.backdropPath ?? moviePopular.posterPath}",
               ),
@@ -68,7 +66,7 @@ class swiper_item extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 20,
+            top: 30,
             right: 0,
             child: Container(
               decoration: BoxDecoration(

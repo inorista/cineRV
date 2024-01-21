@@ -20,7 +20,7 @@ class swiper_carousel extends StatelessWidget {
             final listPopular = popularState.popularMovies;
             return SizedBox(
               width: double.infinity,
-              height: deviceHeight / 2.5,
+              height: deviceHeight / 2.55,
               child: Swiper(
                 onIndexChanged: (value) {
                   HapticFeedback.vibrate();
@@ -32,14 +32,14 @@ class swiper_carousel extends StatelessWidget {
                 layout: SwiperLayout.DEFAULT,
                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 duration: 200,
-                itemBuilder: (BuildContext context, int index) {
+                itemCount: listPopular.length,
+                itemBuilder: (context, index) {
                   return swiper_item(moviePopular: listPopular[index]);
                 },
-                itemCount: listPopular.length,
               ),
             );
           }
-          return Container();
+          return const SizedBox();
         },
       ),
     );

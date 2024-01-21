@@ -64,7 +64,8 @@ class listview_poster_with_backdrop extends StatelessWidget {
                       height: deviceHeight / 3.5,
                       width: deviceWidth,
                       child: formedCachedImage(
-                        imageUrl: "$IMAGE_PATH_BACKDROP${listMovieData[index].backdropPath ?? listMovieData[index].posterPath}",
+                        imageUrl:
+                            "$IMAGE_PATH_BACKDROP${listMovieData[index].backdropPath ?? listMovieData[index].posterPath}",
                         errorWidget: Container(),
                       ),
                     ),
@@ -119,7 +120,7 @@ class listview_poster_with_backdrop extends StatelessWidget {
                               const SizedBox(height: 20),
                               listMovieData[index].status == null
                                   ? Text("Tổng lượt vote: ${listMovieData[index].voteCount}")
-                                  : Text("${listMovieData[index].status == "Released" ? "Đã hoàn thành" : "Chưa ra mắt"}"),
+                                  : Text(listMovieData[index].status == "Released" ? "Đã hoàn thành" : "Chưa ra mắt"),
                               const SizedBox(height: 10),
                               listMovieData[index].runtime == null
                                   ? Text("${listMovieData[index].releaseDate}")
@@ -150,7 +151,8 @@ class listview_poster_with_backdrop extends StatelessWidget {
                       builder: (context, state) {
                         if (state is AllLovedMoviesLoaded) {
                           final isLoved =
-                              state.listAllLovedMovies.indexWhere((element) => element.id == listMovieData[index].id) != -1
+                              state.listAllLovedMovies.indexWhere((element) => element.id == listMovieData[index].id) !=
+                                      -1
                                   ? true
                                   : false;
                           if (isLoved) {
@@ -163,7 +165,8 @@ class listview_poster_with_backdrop extends StatelessWidget {
                                   showDialog(
                                     context: context,
                                     builder: (context) => confirm_box(
-                                      content: """Bạn muốn gỡ bộ phim "${listMovieData[index].title}" khỏi danh sách ưu thích?""",
+                                      content:
+                                          """Bạn muốn gỡ bộ phim "${listMovieData[index].title}" khỏi danh sách ưu thích?""",
                                       movieID: listMovieData[index].id!,
                                     ),
                                   );

@@ -17,6 +17,7 @@ import 'package:cinerv/src/ui/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -59,45 +60,47 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchFieldBloc()),
         BlocProvider(create: (context) => DetailGenreBloc()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'CineRV',
-        theme: ThemeData(
-          pageTransitionsTheme: const PageTransitionsTheme(
-            builders: {
-              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            },
-          ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color.fromARGB(255, 31, 31, 31),
-            titleTextStyle: kStyleAppBarTitle,
-          ),
-          backgroundColor: Colors.white,
-          tabBarTheme: const TabBarTheme(
-            labelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.label,
-          ),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: const Color(0xff121212).withOpacity(0.85),
-            unselectedItemColor: const Color(0xff5c5c5c),
-            selectedItemColor: Colors.white,
-          ),
-          fontFamily: "Open Sans",
-          textTheme: const TextTheme(
-            bodyText1: TextStyle(
+      child: ScreenUtilInit(
+        builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'CineRV',
+          theme: ThemeData(
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              },
+            ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color.fromARGB(255, 31, 31, 31),
+              titleTextStyle: kStyleAppBarTitle,
+            ),
+            backgroundColor: Colors.white,
+            tabBarTheme: const TabBarTheme(
+              labelColor: Colors.white,
+              indicatorSize: TabBarIndicatorSize.label,
+            ),
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              backgroundColor: const Color(0xff121212).withOpacity(0.85),
+              unselectedItemColor: const Color(0xff5c5c5c),
+              selectedItemColor: Colors.white,
+            ),
+            fontFamily: "Open Sans",
+            textTheme: const TextTheme(
+              bodyText1: TextStyle(
+                color: Color(0xffffffff),
+              ),
+            ),
+            iconTheme: const IconThemeData(
+              size: 25,
               color: Color(0xffffffff),
             ),
+            brightness: Brightness.dark,
+            scaffoldBackgroundColor: const Color(0xff181818),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          iconTheme: const IconThemeData(
-            size: 25,
-            color: Color(0xffffffff),
-          ),
-          brightness: Brightness.dark,
-          scaffoldBackgroundColor: const Color(0xff181818),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+          home: const DashboardScreen(),
         ),
-        home: const DashboardScreen(),
       ),
     );
   }

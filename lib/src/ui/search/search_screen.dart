@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinerv/src/blocs/popular_movie/popular_movie_bloc.dart';
 import 'package:cinerv/src/blocs/search_field/search_field_bloc.dart';
 import 'package:cinerv/src/blocs/search_history/search_history_bloc.dart';
@@ -126,6 +127,7 @@ class SearchScreen extends StatelessWidget {
                                     style: kStyleLoveListTitle,
                                   ),
                                 ),
+                                const SizedBox(height: 20),
                                 listview_poster_with_backdrop(listMovieData: listAllMovies),
                               ],
                             );

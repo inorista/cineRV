@@ -6,15 +6,20 @@ import 'package:cinerv/src/blocs/detail_movie/detail_movie_bloc.dart';
 import 'package:cinerv/src/blocs/review_movie/review_movie_bloc.dart';
 import 'package:cinerv/src/constants/path_constants.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
+import 'package:cinerv/src/models/credit.dart';
+import 'package:cinerv/src/models/movie.dart';
+import 'package:cinerv/src/ui/share_detail/share_detail.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 import 'package:cinerv/src/commons/formedCachedNetwork.dart';
+import 'package:screenshot/screenshot.dart';
 
 class DetailMovieScreen extends StatelessWidget {
   const DetailMovieScreen({
@@ -25,77 +30,10 @@ class DetailMovieScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double deviceHeight = MediaQuery.of(context).size.height;
+    List<Cast> listCastTemp = [];
     return Scaffold(
       backgroundColor: const Color(0xff181818),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: BlocBuilder<DetailMovieBloc, DetailMovieState>(
-              builder: (context, detailState) {
-                return BlocBuilder<AllLovedMoviesBloc, AllLovedMoviesState>(
-                  builder: (context, loveState) {
-                    if (detailState is DetailMovieLoaded) {
-                      if (loveState is AllLovedMoviesLoaded) {
-                        final bool isLoved =
-                            loveState.listAllLovedMovies.indexWhere((e) => e.id == detailState.movie.id) != -1
-                                ? true
-                                : false;
-
-                        if (isLoved) {
-                          return Bounceable(
-                            onTap: () async {
-                              HapticFeedback.heavyImpact();
-                              context
-                                  .read<AllLovedMoviesBloc>()
-                                  .add(RemoveMovieFromList(movieID: detailState.movie.id!.toString()));
-                            },
-                            child: Icon(
-                              Iconsax.heart5,
-                              color: Colors.red.withOpacity(0.85),
-                              size: 25,
-                            ),
-                          );
-                        } else {
-                          return Bounceable(
-                            onTap: () {
-                              HapticFeedback.heavyImpact();
-                              context.read<AllLovedMoviesBloc>().add(
-                                    AddMovieToList(
-                                      movieID: detailState.movie.id.toString(),
-                                    ),
-                                  );
-                            },
-                            child: const Icon(
-                              Iconsax.heart,
-                              size: 25,
-                            ),
-                          );
-                        }
-                      }
-                    }
-                    return Container();
-                  },
-                );
-              },
-            ),
-          )
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 80,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
-          child: const Icon(
-            EvaIcons.arrowIosBack,
-            size: 25,
-          ),
-        ),
-      ),
       body: BlocBuilder<DetailMovieBloc, DetailMovieState>(
         buildWhen: (previous, current) {
           return previous != current;
@@ -138,70 +76,154 @@ class DetailMovieScreen extends StatelessWidget {
                 CustomScrollView(
                   physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                   slivers: [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 100),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          height: deviceHeight / 3,
-                          width: double.infinity,
-                          child: Row(
-                            children: [
-                              movie.posterPath == null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Container(
-                                        height: deviceHeight / 3,
-                                        width: deviceWidth / 2.2,
-                                        color: const Color(0xffffffff),
-                                        child: const Center(
-                                          child: Text(
-                                            "NO POSTER",
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: formedCachedImage(
-                                        imageUrl: "$IMAGE_PATH_POSTER${movie.posterPath}",
-                                      ),
-                                    ),
-                              Container(width: 14),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      movie.status == "Released" ? "Đã hoàn thành" : "Phim chưa ra mắt",
-                                      style: kStyleStatusMovie,
-                                    ),
-                                    Container(height: 10),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Iconsax.clock,
-                                          size: 15,
-                                        ),
-                                        Container(width: 4),
-                                        Flexible(
-                                          child: Text(
-                                            "Thời lượng: ${movie.runtime == 0 ? "Chưa rõ" : "${movie.runtime} phút"}",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(height: 10),
-                                  ],
+                    SliverAppBar(
+                      pinned: true,
+                      actions: [
+                        GestureDetector(
+                          onTap: () async {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => ShareDetailScreen(
+                                  movie: movie,
                                 ),
                               ),
-                            ],
+                            );
+                          },
+                          child: const Icon(
+                            EvaIcons.shareOutline,
+                            color: Colors.white,
+                            size: 25,
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: BlocBuilder<DetailMovieBloc, DetailMovieState>(
+                            builder: (context, detailState) {
+                              return BlocBuilder<AllLovedMoviesBloc, AllLovedMoviesState>(
+                                builder: (context, loveState) {
+                                  if (detailState is DetailMovieLoaded) {
+                                    if (loveState is AllLovedMoviesLoaded) {
+                                      final bool isLoved = loveState.listAllLovedMovies
+                                                  .indexWhere((e) => e.id == detailState.movie.id) !=
+                                              -1
+                                          ? true
+                                          : false;
+
+                                      if (isLoved) {
+                                        return Bounceable(
+                                          onTap: () async {
+                                            HapticFeedback.heavyImpact();
+                                            context
+                                                .read<AllLovedMoviesBloc>()
+                                                .add(RemoveMovieFromList(movieID: detailState.movie.id!.toString()));
+                                          },
+                                          child: Icon(
+                                            Iconsax.heart5,
+                                            color: Colors.red.withOpacity(0.85),
+                                            size: 25,
+                                          ),
+                                        );
+                                      } else {
+                                        return Bounceable(
+                                          onTap: () {
+                                            HapticFeedback.heavyImpact();
+                                            context.read<AllLovedMoviesBloc>().add(
+                                                  AddMovieToList(
+                                                    movieID: detailState.movie.id.toString(),
+                                                  ),
+                                                );
+                                          },
+                                          child: const Icon(
+                                            Iconsax.heart,
+                                            size: 25,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  }
+                                  return Container();
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      toolbarHeight: 80,
+                      leading: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        child: const Icon(
+                          EvaIcons.arrowIosBack,
+                          size: 25,
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        height: deviceHeight / 3,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            movie.posterPath == null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      height: deviceHeight / 3,
+                                      width: deviceWidth / 2.2,
+                                      color: const Color(0xffffffff),
+                                      child: const Center(
+                                        child: Text(
+                                          "NO POSTER",
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: formedCachedImage(
+                                      imageUrl: "$IMAGE_PATH_POSTER${movie.posterPath}",
+                                    ),
+                                  ),
+                            Container(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    movie.status == "Released" ? "Đã hoàn thành" : "Phim chưa ra mắt",
+                                    style: kStyleStatusMovie,
+                                  ),
+                                  Container(height: 10),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Iconsax.clock,
+                                        size: 15,
+                                      ),
+                                      Container(width: 4),
+                                      Flexible(
+                                        child: Text(
+                                          "Thời lượng: ${movie.runtime == 0 ? "Chưa rõ" : "${movie.runtime} phút"}",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(height: 10),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -311,6 +333,8 @@ class DetailMovieScreen extends StatelessWidget {
                                     itemCount: state.castLoaded.cast?.length ?? 0,
                                     itemBuilder: (context, index) {
                                       final listCast = state.castLoaded.cast;
+                                      listCastTemp.clear();
+                                      listCastTemp.addAll(listCast ?? []);
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 12),
                                         child: SizedBox(
@@ -480,6 +504,145 @@ class DetailMovieScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // SliverToBoxAdapter(
+                    //   child: Padding(
+                    //     padding: EdgeInsets.symmetric(horizontal: 0.14.sw),
+                    //     child: ClipRRect(
+                    //       borderRadius: BorderRadius.circular(24),
+                    //       child: Container(
+                    //         padding: const EdgeInsets.all(20),
+                    //         decoration: BoxDecoration(
+                    //           color: Colors.white,
+                    //           borderRadius: BorderRadius.circular(20),
+                    //         ),
+                    //         height: 0.5.sh,
+                    //         width: 1.sw,
+                    //         child: Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             Container(
+                    //               height: 0.6.sw,
+                    //               decoration: BoxDecoration(
+                    //                 borderRadius: BorderRadius.circular(20),
+                    //                 boxShadow: [
+                    //                   BoxShadow(
+                    //                     blurRadius: 10,
+                    //                     offset: const Offset(2, 0),
+                    //                     spreadRadius: 3,
+                    //                     color: Colors.black.withOpacity(0.25),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //               child: ClipRRect(
+                    //                 borderRadius: BorderRadius.circular(20),
+                    //                 child: formedCachedImage(
+                    //                   imageUrl: "$IMAGE_PATH_BACKDROP_POPULAR${movie.backdropPath ?? movie.posterPath}",
+                    //                   isCover: true,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             const SizedBox(height: 15),
+                    //             Text(
+                    //               "${movie.title}",
+                    //               style: kStyleStickName,
+                    //             ),
+                    //             const SizedBox(height: 7),
+                    //             Row(
+                    //               children: [
+                    //                 const Icon(
+                    //                   Iconsax.clock,
+                    //                   size: 15,
+                    //                   color: Colors.black,
+                    //                 ),
+                    //                 Container(width: 4),
+                    //                 Flexible(
+                    //                   child: Text(
+                    //                     "Thời lượng: ${movie.runtime == 0 ? "Chưa rõ" : "${movie.runtime} phút"}",
+                    //                     style: const TextStyle(
+                    //                       fontSize: 16,
+                    //                       color: Colors.black,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //             const SizedBox(height: 15),
+                    //             BlocBuilder<CastMovieBloc, CastMovieState>(
+                    //               builder: (context, state) {
+                    //                 if (state is CastMovieLoaded) {
+                    //                   final listCast = state.castLoaded.cast!.length > 5
+                    //                       ? state.castLoaded.cast!.sublist(0, 5)
+                    //                       : state.castLoaded.cast!;
+                    //                   return Wrap(
+                    //                     spacing: 2,
+                    //                     runSpacing: 2,
+                    //                     children: listCast!.map((e) {
+                    //                       if (e.profilePath == null) {
+                    //                         return Container(
+                    //                           height: 50,
+                    //                           width: 50,
+                    //                           decoration: BoxDecoration(
+                    //                             borderRadius: BorderRadius.circular(100),
+                    //                             color: const Color(0xff545454),
+                    //                           ),
+                    //                           child: const Center(
+                    //                             child: Icon(
+                    //                               EvaIcons.questionMark,
+                    //                               size: 25,
+                    //                             ),
+                    //                           ),
+                    //                         );
+                    //                       }
+                    //                       return ClipRRect(
+                    //                         borderRadius: BorderRadius.circular(50),
+                    //                         child: formedCachedImage(
+                    //                           imageUrl: "$IMAGE_PATH_CASTER${e.profilePath}",
+                    //                           height: 50,
+                    //                           width: 50,
+                    //                           errorWidget: Container(
+                    //                             height: 50,
+                    //                             width: 50,
+                    //                             decoration: BoxDecoration(
+                    //                               borderRadius: BorderRadius.circular(100),
+                    //                               color: const Color(0xff545454),
+                    //                             ),
+                    //                             child: const Center(
+                    //                               child: Icon(
+                    //                                 EvaIcons.questionMark,
+                    //                                 size: 25,
+                    //                               ),
+                    //                             ),
+                    //                           ),
+                    //                         ),
+                    //                       );
+                    //                     }).toList(),
+                    //                   );
+                    //                 }
+                    //                 return const SizedBox();
+                    //               },
+                    //             ),
+                    //             const SizedBox(height: 15),
+                    //             Row(
+                    //               children: [
+                    //                 Image.asset(
+                    //                   "assets/images/imdb_logo.png",
+                    //                   width: 40,
+                    //                 ),
+                    //                 Text(
+                    //                   "  ${movie.voteAverage?.toStringAsFixed(1) ?? 0}/10",
+                    //                   style: const TextStyle(
+                    //                     fontSize: 16,
+                    //                     color: Colors.black,
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
