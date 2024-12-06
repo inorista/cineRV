@@ -14,6 +14,7 @@ import 'package:cinerv/src/blocs/trending_movie/trending_movie_bloc.dart';
 import 'package:cinerv/src/blocs/upcoming_movie/upcoming_movie_bloc.dart';
 import 'package:cinerv/src/constants/style_constants.dart';
 import 'package:cinerv/src/ui/dashboard/dashboard_screen.dart';
+import 'package:cinerv/src/ui/signin/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -45,13 +46,23 @@ class MyApp extends StatelessWidget {
     ]);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => PopularMovieBloc()..add(GetPopularMovie())),
-        BlocProvider(create: (context) => SearchHistoryBloc()..add(GetAllSearchHistory())),
+        BlocProvider(
+            create: (context) => PopularMovieBloc()..add(GetPopularMovie())),
+        BlocProvider(
+            create: (context) =>
+                SearchHistoryBloc()..add(GetAllSearchHistory())),
         BlocProvider(create: (context) => BottomNavigatorBloc()),
-        BlocProvider(create: (context) => GenresDiscoverBloc()..add(GetAllGenres())),
-        BlocProvider(create: (context) => TrendingMovieBloc()..add(const GetTrendingMovies())),
-        BlocProvider(create: (context) => TopRatedMovieBloc()..add(const GetTopRatedMovies())),
-        BlocProvider(create: (context) => UpcomingMovieBloc()..add(const GetUpcomingMovie())),
+        BlocProvider(
+            create: (context) => GenresDiscoverBloc()..add(GetAllGenres())),
+        BlocProvider(
+            create: (context) =>
+                TrendingMovieBloc()..add(const GetTrendingMovies())),
+        BlocProvider(
+            create: (context) =>
+                TopRatedMovieBloc()..add(const GetTopRatedMovies())),
+        BlocProvider(
+            create: (context) =>
+                UpcomingMovieBloc()..add(const GetUpcomingMovie())),
         BlocProvider(create: (context) => ReviewMovieBloc()),
         BlocProvider(create: (context) => DetailMovieBloc()),
         BlocProvider(create: (context) => CastMovieBloc()),
@@ -99,7 +110,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: const Color(0xff181818),
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: const DashboardScreen(),
+          home: const SignInScreen(),
         ),
       ),
     );

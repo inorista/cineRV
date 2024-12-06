@@ -30,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
             ],
           ),
           bottomNavigationBar: SizedBox(
-            height: 82,
+            height: 83,
             child: Theme(
               data: ThemeData(
                 splashColor: Colors.transparent,
@@ -50,7 +50,9 @@ class DashboardScreen extends StatelessWidget {
                 selectedFontSize: 10,
                 unselectedFontSize: 10,
                 onTap: (index) {
-                  context.read<BottomNavigatorBloc>().add(ChangeIndexEvent(index: index));
+                  context
+                      .read<BottomNavigatorBloc>()
+                      .add(ChangeIndexEvent(index: index));
                 },
                 currentIndex: state.index,
                 items: const [

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:cinerv/src/blocs/popular_movie/popular_movie_bloc.dart';
@@ -28,9 +29,12 @@ class HomeScreen extends StatelessWidget {
               child: BlocBuilder<PopularMovieBloc, PopularMovieState>(
                 builder: (context, popularState) {
                   if (popularState is PopularMovieLoaded) {
-                    final firstPopular = popularState.popularMovies[3];
+                    final rd =
+                        Random().nextInt(popularState.popularMovies.length);
+                    final firstPopular = popularState.popularMovies[rd];
                     return formedCachedImage(
-                      imageUrl: "$IMAGE_PATH_BACKDROP${firstPopular.backdropPath ?? firstPopular.posterPath}",
+                      imageUrl:
+                          "$IMAGE_PATH_BACKDROP${firstPopular.backdropPath ?? firstPopular.posterPath}",
                     );
                   }
                   return Container();
@@ -52,7 +56,8 @@ class HomeScreen extends StatelessWidget {
             ),
             CustomScrollView(
               primary: false,
-              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               slivers: [
                 SliverToBoxAdapter(child: Container(height: 60)),
                 const SliverToBoxAdapter(

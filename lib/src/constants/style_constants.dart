@@ -163,3 +163,21 @@ const TextStyle kStyleTitleLoved = TextStyle(
   fontWeight: FontWeight.bold,
   color: Colors.white,
 );
+
+const TextStyle kStyleItemLogin = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.w600,
+  color: Color(0xff2A2A2A),
+);
+
+const TextStyle kStyleSignIn = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+);
+
+const TextStyle kStylePlaceHolderLogin = TextStyle(
+  fontSize: 13,
+  fontWeight: FontWeight.w500,
+  color: Color.fromARGB(255, 135, 135, 135),
+);
